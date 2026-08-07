@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your MBTI Personality Result</title>
+  <meta name="description" content="Detailed MBTI personality archetype result breakdown, score metrics, career paths, and traits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c16;
+      --card-bg: rgba(22, 27, 46, 0.75);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.4);
+      --accent: #ec4899;
+      --accent-glow: rgba(236, 72, 153, 0.3);
+      --green: #10b981;
+      --amber: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--primary-glow);
+      top: -150px;
+      left: -150px;
+    }
+    .orb-2 {
+      width: 550px;
+      height: 550px;
+      background: var(--accent-glow);
+      top: 30%;
+      right: -200px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* Hero Header */
+    .hero-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .blob-tag {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .blob-dot {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+    }
+
+    .type-code {
+      font-family: 'Outfit', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .type-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .type-motto {
+      font-size: 1.15rem;
+      color: #d1d5db;
+      max-width: 600px;
+      margin: 0 auto 1.5rem auto;
+      font-style: italic;
+    }
+
+    .type-overview {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.65;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Dimensions Breakdown */
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .metrics-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .metric-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .metric-left { color: #a78bfa; }
+    .metric-right { color: #f472b6; }
+
+    .metric-bar-bg {
+      height: 12px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .metric-bar-left {
+      height: 100%;
+      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      transition: width 0.8s ease-out;
+    }
+    .metric-bar-right {
+      height: 100%;
+      background: linear-gradient(90deg, #f472b6, #db2777);
+      transition: width 0.8s ease-out;
+    }
+
+    /* Details Grid */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .detail-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: #e5e7eb;
+    }
+    .tag.strength { border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.1); color: #a7f3d0; }
+    .tag.weakness { border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.1); color: #fde68a; }
+    .tag.career { border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.1); color: #ddd6fe; }
+    .tag.famous { border-color: rgba(236, 72, 153, 0.3); background: rgba(236, 72, 153, 0.1); color: #fbcfe8; }
+
+    /* Actions Footer */
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.9rem 1.8rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-retake {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #ffffff;
+    }
+    .btn-retake:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-share {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      border: none;
+      color: #ffffff;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .btn-share:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <div class="container">
+    <div class="hero-card">
+      <div class="blob-tag" id="blob-status">
+        <span class="blob-dot"></span> Saved to Netlify Blobs
+      </div>
+      <div class="type-code" id="type-code">----</div>
+      <div class="type-title" id="type-title">Loading Archetype...</div>
+      <div class="type-motto" id="type-motto">"Discovering your unique cognitive profile"</div>
+      <p class="type-overview" id="type-overview">Fetching analysis from serverless backend...</p>
+    </div>
+
+    <h3 class="section-title">Cognitive Dimension Breakdown</h3>
+    <div class="metrics-grid">
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-left" id="lbl-E">Extraverted (E): --%</span>
+          <span class="metric-right" id="lbl-I">Introverted (I): --%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-left" id="bar-E" style="width: 50%;"></div>
+          <div class="metric-bar-right" id="bar-I" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-left" id="lbl-S">Sensing (S): --%</span>
+          <span class="metric-right" id="lbl-N">Intuitive (N): --%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-left" id="bar-S" style="width: 50%;"></div>
+          <div class="metric-bar-right" id="bar-N" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-left" id="lbl-T">Thinking (T): --%</span>
+          <span class="metric-right" id="lbl-F">Feeling (F): --%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-left" id="bar-T" style="width: 50%;"></div>
+          <div class="metric-bar-right" id="bar-F" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-left" id="lbl-J">Judging (J): --%</span>
+          <span class="metric-right" id="lbl-P">Perceiving (P): --%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-left" id="bar-J" style="width: 50%;"></div>
+          <div class="metric-bar-right" id="bar-P" style="width: 50%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-card">
+        <h3 class="section-title" style="font-size: 1.25rem;">Core Strengths</h3>
+        <div class="tag-list" id="strengths-list"></div>
+      </div>
+
+      <div class="detail-card">
+        <h3 class="section-title" style="font-size: 1.25rem;">Growth Areas</h3>
+        <div class="tag-list" id="weaknesses-list"></div>
+      </div>
+
+      <div class="detail-card">
+        <h3 class="section-title" style="font-size: 1.25rem;">Optimal Career Paths</h3>
+        <div class="tag-list" id="careers-list"></div>
+      </div>
+
+      <div class="detail-card">
+        <h3 class="section-title" style="font-size: 1.25rem;">Famous Personalities</h3>
+        <div class="tag-list" id="famous-list"></div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <a href="/index.html" class="btn btn-retake">🔄 Retake Quiz</a>
+      <button class="btn btn-share" id="btn-copy">🔗 Copy Sharable Result Link</button>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const resultId = urlParams.get('id');
+    const resultType = urlParams.get('type') || 'INFJ';
+
+    async function fetchResult() {
+      let endpoint = `/api/get-result?id=${resultId || ''}&type=${resultType}`;
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        renderResult(data);
+      } catch (err) {
+        console.warn('Fallback result display:', err);
+        renderFallback();
+      }
+    }
+
+    function renderResult(data) {
+      document.getElementById('type-code').textContent = data.type;
+      document.getElementById('type-title').textContent = data.title;
+      document.getElementById('type-motto').textContent = `"${data.motto}"`;
+      document.getElementById('type-overview').textContent = data.overview;
+
+      if (!data.storedInBlobs) {
+        document.getElementById('blob-status').innerHTML = '<span class="blob-dot" style="background:#f59e0b;"></span> Preview Mode';
+        document.getElementById('blob-status').style.color = '#fde68a';
+      }
+
+      // Percentages
+      const p = data.percentages || { E:50, I:50, S:50, N:50, T:50, F:50, J:50, P:50 };
+      
+      document.getElementById('lbl-E').textContent = `Extraverted (E): ${p.E}%`;
+      document.getElementById('lbl-I').textContent = `Introverted (I): ${p.I}%`;
+      document.getElementById('bar-E').style.width = `${p.E}%`;
+      document.getElementById('bar-I').style.width = `${p.I}%`;
+
+      document.getElementById('lbl-S').textContent = `Sensing (S): ${p.S}%`;
+      document.getElementById('lbl-N').textContent = `Intuitive (N): ${p.N}%`;
+      document.getElementById('bar-S').style.width = `${p.S}%`;
+      document.getElementById('bar-N').style.width = `${p.N}%`;
+
+      document.getElementById('lbl-T').textContent = `Thinking (T): ${p.T}%`;
+      document.getElementById('lbl-F').textContent = `Feeling (F): ${p.F}%`;
+      document.getElementById('bar-T').style.width = `${p.T}%`;
+      document.getElementById('bar-F').style.width = `${p.F}%`;
+
+      document.getElementById('lbl-J').textContent = `Judging (J): ${p.J}%`;
+      document.getElementById('lbl-P').textContent = `Perceiving (P): ${p.P}%`;
+      document.getElementById('bar-J').style.width = `${p.J}%`;
+      document.getElementById('bar-P').style.width = `${p.P}%`;
+
+      // Tags
+      populateTags('strengths-list', data.strengths, 'strength');
+      populateTags('weaknesses-list', data.weaknesses, 'weakness');
+      populateTags('careers-list', data.careers, 'career');
+      populateTags('famous-list', data.famous, 'famous');
+    }
+
+    function populateTags(containerId, items, className) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = '';
+      (items || []).forEach(item => {
+        const span = document.createElement('span');
+        span.className = `tag ${className}`;
+        span.textContent = item;
+        el.appendChild(span);
+      });
+    }
+
+    function renderFallback() {
+      renderResult({
+        type: resultType.toUpperCase(),
+        title: "Advocate",
+        motto: "Quiet, mystical, yet inspiring and tireless idealist.",
+        overview: "INFJs are thoughtful visionaries who seek deep purpose and meaningful connection with others.",
+        percentages: { E: 35, I: 65, S: 25, N: 75, T: 40, F: 60, J: 70, P: 30 },
+        strengths: ["Creative & Insightful", "Principled", "Passionate & Altruistic"],
+        weaknesses: ["Sensitive to Criticism", "Perfectionistic", "Burnout Prone"],
+        careers: ["Psychologist", "UX Designer", "Author", "Counselor"],
+        famous: ["Martin Luther King Jr.", "Carl Jung", "Nelson Mandela"],
+        storedInBlobs: false
+      });
+    }
+
+    document.getElementById('btn-copy').onclick = () => {
+      navigator.clipboard.writeText(window.location.href);
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✅ Link Copied!';
+      setTimeout(() => {
+        btn.textContent = '🔗 Copy Sharable Result Link';
+      }, 2500);
+    };
+
+    fetchResult();
+  </script>
+</body>
+</html>

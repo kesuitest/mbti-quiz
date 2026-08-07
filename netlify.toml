@@ -1,0 +1,13 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/submit-quiz"
+  to = "/.netlify/functions/submit-quiz"
+  status = 200
+
+[[redirects]]
+  from = "/api/get-result"
+  to = "/.netlify/functions/get-result"
+  status = 200
