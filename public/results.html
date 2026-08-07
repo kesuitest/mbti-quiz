@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --bg-dark: #0a0c16;
@@ -280,6 +281,27 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px var(--primary-glow);
     }
+
+    .btn-pdf {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+    .btn-pdf:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    @media print {
+      body {
+        background: #0a0c16 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .action-bar, .glow-orb {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -369,6 +391,7 @@
 
     <div class="action-bar">
       <a href="/index.html" class="btn btn-retake">🔄 Retake Quiz</a>
+      <button class="btn btn-pdf" id="btn-pdf">📄 Download as PDF</button>
       <button class="btn btn-share" id="btn-copy">🔗 Copy Sharable Result Link</button>
     </div>
   </div>
@@ -432,7 +455,7 @@
     }
 
     function populateTags(containerId, items, className) {
-      const el = document.getElementById(containerId);
+      const el = document.innerHTML ? document.getElementById(containerId) : document.getElementById(containerId);
       el.innerHTML = '';
       (items || []).forEach(item => {
         const span = document.createElement('span');
@@ -464,6 +487,34 @@
       setTimeout(() => {
         btn.textContent = '🔗 Copy Sharable Result Link';
       }, 2500);
+    };
+
+    document.getElementById('btn-pdf').onclick = () => {
+      const element = document.querySelector('.container');
+      const typeCode = document.getElementById('type-code').textContent || 'MBTI';
+      const btn = document.getElementById('btn-pdf');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '⌛ Generating PDF...';
+
+      const opt = {
+        margin:       0.3,
+        filename:     `MBTI-Personality-Result-${typeCode}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0a0c16' },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      if (window.html2pdf) {
+        html2pdf().set(opt).from(element).save().then(() => {
+          btn.innerHTML = originalText;
+        }).catch(() => {
+          window.print();
+          btn.innerHTML = originalText;
+        });
+      } else {
+        window.print();
+        btn.innerHTML = originalText;
+      }
     };
 
     fetchResult();
