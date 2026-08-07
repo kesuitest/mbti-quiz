@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI Personality Quiz | Discover Your True Archetype</title>
+  <meta name="description" content="Take our quick, accurate MBTI personality test to uncover your psychological profile, strengths, ideal career paths, and relationship compatibility.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c16;
+      --card-bg: rgba(22, 27, 46, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.4);
+      --accent: #ec4899;
+      --accent-glow: rgba(236, 72, 153, 0.3);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --option-bg: rgba(255, 255, 255, 0.04);
+      --option-hover: rgba(139, 92, 246, 0.15);
+      --option-selected: rgba(139, 92, 246, 0.35);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Gradient backdrop lights */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: var(--primary-glow);
+      top: -100px;
+      left: -100px;
+    }
+    .orb-2 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-glow);
+      bottom: -150px;
+      right: -100px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      z-index: 1;
+      position: relative;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c4b5fd;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Progress bar */
+    .progress-wrapper {
+      margin-bottom: 2rem;
+    }
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .question-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+      color: #ffffff;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .option-btn {
+      background: var(--option-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 1.1rem 1.4rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-btn:hover {
+      background: var(--option-hover);
+      border-color: rgba(139, 92, 246, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .option-btn.selected {
+      background: var(--option-selected);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .option-btn.selected .radio-circle {
+      border-color: #ffffff;
+      background: var(--primary);
+      box-shadow: inset 0 0 0 3px #ffffff;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      align-items: center;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover:not(:disabled) {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .btn-secondary:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      border: none;
+      color: #ffffff;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <div class="container">
+    <header>
+      <span class="badge">Netlify Blobs Powered</span>
+      <h1>MBTI Personality Quiz</h1>
+      <p class="subtitle">Answer 12 quick questions to discover your 4-letter personality archetype and deep profile breakdown.</p>
+    </header>
+
+    <div class="progress-wrapper">
+      <div class="progress-labels">
+        <span id="progress-text">Question 1 of 12</span>
+        <span id="progress-percent">8% Completed</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+    </div>
+
+    <main class="quiz-card" id="quiz-card">
+      <h2 class="question-title" id="question-text">Loading question...</h2>
+      <div class="options-grid" id="options-container"></div>
+
+      <div class="controls">
+        <button class="btn-secondary" id="btn-prev" disabled>Previous</button>
+        <button class="btn-primary" id="btn-next" disabled>Next Question</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      {
+        id: 1,
+        dim: 'EI',
+        text: "At social gatherings or networking events, how do you feel after interacting with many people?",
+        options: [
+          { text: "Energized and inspired to keep socializing", value: { E: 2, I: 0 } },
+          { text: "Slightly energized, but ready for a quiet chat", value: { E: 1, I: 0 } },
+          { text: "A bit drained, needing quiet time to recharge", value: { E: 0, I: 1 } },
+          { text: "Completely exhausted, wanting immediate alone time", value: { E: 0, I: 2 } }
+        ]
+      },
+      {
+        id: 2,
+        dim: 'SN',
+        text: "When taking on a new project or problem, what attracts your focus first?",
+        options: [
+          { text: "Concrete facts, immediate details, and proven methods", value: { S: 2, N: 0 } },
+          { text: "Practical reality with a touch of theoretical ideas", value: { S: 1, N: 0 } },
+          { text: "Future possibilities and underlying conceptual patterns", value: { S: 0, N: 1 } },
+          { text: "Big picture vision, abstract theories, and radical innovation", value: { S: 0, N: 2 } }
+        ]
+      },
+      {
+        id: 3,
+        dim: 'TF',
+        text: "When making tough decisions that affect others, what guides your final choice?",
+        options: [
+          { text: "Strict objective logic, fairness, and data analysis", value: { T: 2, F: 0 } },
+          { text: "Rational reasoning with consideration for feelings", value: { T: 1, F: 0 } },
+          { text: "Empathy, personal values, and group harmony", value: { T: 0, F: 1 } },
+          { text: "Deep compassionate intuition for how individuals will feel", value: { T: 0, F: 2 } }
+        ]
+      },
+      {
+        id: 4,
+        dim: 'JP',
+        text: "How do you prefer to manage your daily life and schedules?",
+        options: [
+          { text: "Detailed plans, strict checklists, and structured routines", value: { J: 2, P: 0 } },
+          { text: "General organization with room for minor shifts", value: { J: 1, P: 0 } },
+          { text: "Spontaneous flow, keeping options open until the last minute", value: { J: 0, P: 1 } },
+          { text: "Complete adaptability, avoiding rigid schedules", value: { J: 0, P: 2 } }
+        ]
+      },
+      {
+        id: 5,
+        dim: 'EI',
+        text: "In group conversations, do you tend to speak out ideas as they come or process quietly beforehand?",
+        options: [
+          { text: "Think out loud, sharing thoughts instantly as they form", value: { E: 2, I: 0 } },
+          { text: "Rehearse thoughts internally first before speaking", value: { E: 0, I: 2 } }
+        ]
+      },
+      {
+        id: 6,
+        dim: 'SN',
+        text: "Which description best fits your reading or learning preference?",
+        options: [
+          { text: "Real-world stories, step-by-step guides, and historical facts", value: { S: 2, N: 0 } },
+          { text: "Speculative fiction, metaphors, and grand philosophical ideas", value: { S: 0, N: 2 } }
+        ]
+      },
+      {
+        id: 7,
+        dim: 'TF',
+        text: "If a friend presents a flawed plan, what is your instinctual reaction?",
+        options: [
+          { text: "Point out the logical oversights directly so they can fix it", value: { T: 2, F: 0 } },
+          { text: "Offer encouragement first and gently suggest alternative ideas", value: { T: 0, F: 2 } }
+        ]
+      },
+      {
+        id: 8,
+        dim: 'JP',
+        text: "How do you handle deadlines and major assignments?",
+        options: [
+          { text: "Finish early to avoid stress and ensure quality", value: { J: 2, P: 0 } },
+          { text: "Work best under pressure in a burst of last-minute energy", value: { J: 0, P: 2 } }
+        ]
+      },
+      {
+        id: 9,
+        dim: 'EI',
+        text: "Where do you prefer to spend a free weekend afternoon?",
+        options: [
+          { text: "Exploring a bustling city event or party with friends", value: { E: 2, I: 0 } },
+          { text: "Relaxing at home with a favorite book, movie, or solo hobby", value: { E: 0, I: 2 } }
+        ]
+      },
+      {
+        id: 10,
+        dim: 'SN',
+        text: "When learning a complex subject, do you prefer step-by-step instructions or seeing the big picture first?",
+        options: [
+          { text: "Step-by-step practical examples first", value: { S: 2, N: 0 } },
+          { text: "Overall theoretical framework first", value: { S: 0, N: 2 } }
+        ]
+      },
+      {
+        id: 11,
+        dim: 'TF',
+        text: "What brings you a stronger sense of accomplishment?",
+        options: [
+          { text: "Building an efficient, perfectly optimized system", value: { T: 2, F: 0 } },
+          { text: "Helping someone feel understood, supported, and happy", value: { T: 0, F: 2 } }
+        ]
+      },
+      {
+        id: 12,
+        dim: 'JP',
+        text: "When packing for a vacation, how prepared are you?",
+        options: [
+          { text: "Everything itemized, labeled, and planned per day", value: { J: 2, P: 0 } },
+          { text: "Toss essentials into a bag and figure the rest out on arrival", value: { J: 0, P: 2 } }
+        ]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    const userAnswers = {}; // qIndex -> optionIndex
+
+    const qTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const progressText = document.getElementById('progress-text');
+    const progressPercent = document.getElementById('progress-percent');
+    const progressBar = document.getElementById('progress-bar');
+
+    function renderQuestion() {
+      const q = QUESTIONS[currentQuestionIndex];
+      qTextEl.textContent = `${currentQuestionIndex + 1}. ${q.text}`;
+      optionsContainer.innerHTML = '';
+
+      const percent = Math.round(((currentQuestionIndex + 1) / QUESTIONS.length) * 100);
+      progressText.textContent = `Question ${currentQuestionIndex + 1} of ${QUESTIONS.length}`;
+      progressPercent.textContent = `${percent}% Completed`;
+      progressBar.style.width = `${percent}%`;
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        if (userAnswers[currentQuestionIndex] === idx) {
+          btn.classList.add('selected');
+        }
+        btn.innerHTML = `
+          <span>${opt.text}</span>
+          <span class="radio-circle"></span>
+        `;
+        btn.onclick = () => selectOption(idx);
+        optionsContainer.appendChild(btn);
+      });
+
+      btnPrev.disabled = currentQuestionIndex === 0;
+      if (currentQuestionIndex === QUESTIONS.length - 1) {
+        btnNext.textContent = 'Submit Quiz';
+      } else {
+        btnNext.textContent = 'Next Question';
+      }
+
+      btnNext.disabled = userAnswers[currentQuestionIndex] === undefined;
+    }
+
+    function selectOption(idx) {
+      userAnswers[currentQuestionIndex] = idx;
+      const allBtns = optionsContainer.querySelectorAll('.option-btn');
+      allBtns.forEach((b, i) => {
+        if (i === idx) b.classList.add('selected');
+        else b.classList.remove('selected');
+      });
+      btnNext.disabled = false;
+    }
+
+    btnPrev.onclick = () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    };
+
+    btnNext.onclick = async () => {
+      if (userAnswers[currentQuestionIndex] === undefined) return;
+
+      if (currentQuestionIndex < QUESTIONS.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        // Calculate scores
+        const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        Object.keys(userAnswers).forEach(qIdx => {
+          const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
+          if (optSelected && optSelected.value) {
+            Object.keys(optSelected.value).forEach(k => {
+              scores[k] += optSelected.value[k];
+            });
+          }
+        });
+
+        // Submit via API
+        btnNext.disabled = true;
+        btnNext.innerHTML = `<span class="spinner"></span> Analyzing Personality...`;
+
+        try {
+          const res = await fetch('/api/submit-quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answers: scores })
+          });
+
+          const data = await res.json();
+          if (data.resultId) {
+            window.location.href = `/results.html?id=${data.resultId}`;
+          } else if (data.type) {
+            window.location.href = `/results.html?type=${data.type}`;
+          } else {
+            throw new Error('Invalid response structure');
+          }
+        } catch (err) {
+          console.warn('Backend API submission fallback:', err.message);
+          // Fallback calculation directly for offline preview
+          const type = [
+            scores.E >= scores.I ? "E" : "I",
+            scores.N >= scores.S ? "N" : "S",
+            scores.T >= scores.F ? "T" : "F",
+            scores.J >= scores.P ? "J" : "P"
+          ].join("");
+          window.location.href = `/results.html?type=${type}`;
+        }
+      }
+    };
+
+    renderQuestion();
+  </script>
+</body>
+</html>
