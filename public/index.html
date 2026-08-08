@@ -271,27 +271,24 @@
       <button class="btn btn-primary" id="btn-start-quiz" style="font-size: 1.05rem; padding: 1.1rem 2.8rem; cursor: pointer;">🚀 START ASSESSMENT</button>
     </div>
 
-    <!-- Quiz Question Flow Section -->
+    <!-- Quiz Question Flow Section (All Questions on 1 Page) -->
     <div id="quiz-section" style="display: none;">
-      <div class="progress-wrapper">
+      <div class="progress-wrapper" style="position: sticky; top: 0; z-index: 10; background: var(--bg-dark); padding: 1rem 0; border-bottom: 2px solid var(--card-border); margin-bottom: 2rem;">
         <div class="progress-labels">
-          <span id="progress-text">Question 1 of 12</span>
-          <span id="progress-left">11 Questions Left</span>
+          <span id="answered-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700;">0 OF 12 ANSWERED</span>
+          <span id="questions-left-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--primary);">12 QUESTIONS REMAINING</span>
         </div>
-        <div class="progress-bar-bg">
+        <div class="progress-bar-bg" style="margin-top: 0.5rem;">
           <div class="progress-bar-fill" id="progress-bar"></div>
         </div>
       </div>
 
-      <main class="quiz-card" id="quiz-card">
-        <h2 class="question-title" id="question-text">Loading question...</h2>
-        <div class="options-grid" id="options-container"></div>
+      <div id="questions-list-container" style="display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem;"></div>
 
-        <div class="controls">
-          <button class="btn-secondary" id="btn-prev" disabled>Previous</button>
-          <button class="btn-primary" id="btn-next" disabled>Next Question</button>
-        </div>
-      </main>
+      <div class="submit-bar" style="background: var(--card-bg); border: 2px solid var(--card-border); padding: 2rem; text-align: center; margin-bottom: 3rem;">
+        <div id="unanswered-warning" style="display: none; color: #ffccd5; font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase;">⚠️ Please answer all questions before submitting!</div>
+        <button class="btn btn-primary" id="btn-submit-all" style="font-size: 1.1rem; padding: 1.2rem 3rem; width: 100%; max-width: 480px;">🚀 SUBMIT ALL ANSWERS</button>
+      </div>
     </div>
   </div>
 
@@ -418,14 +415,14 @@
     let QUESTIONS = DEFAULT_QUESTIONS;
 
     async function initQuiz() {
-      renderQuestion();
+      renderAllQuestions();
       try {
         const res = await fetch('/api/get-questions');
         if (res.ok) {
           const data = await res.json();
           if (data.questions && data.questions.length > 0) {
             QUESTIONS = data.questions;
-            renderQuestion();
+            renderAllQuestions();
           }
         }
       } catch (err) {
@@ -433,134 +430,166 @@
       }
     }
 
-    let currentQuestionIndex = 0;
     const userAnswers = {}; // qIndex -> optionIndex
 
-    const qTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const progressText = document.getElementById('progress-text');
-    const progressLeft = document.getElementById('progress-left');
+    const questionsContainer = document.getElementById('questions-list-container');
+    const answeredStatus = document.getElementById('answered-status');
+    const questionsLeftStatus = document.getElementById('questions-left-status');
     const progressBar = document.getElementById('progress-bar');
+    const unansweredWarning = document.getElementById('unanswered-warning');
+    const btnSubmitAll = document.getElementById('btn-submit-all');
 
-    function renderQuestion() {
+    function renderAllQuestions() {
       if (!QUESTIONS || QUESTIONS.length === 0) return;
-      const q = QUESTIONS[currentQuestionIndex];
-      if (!q) return;
+      questionsContainer.innerHTML = '';
 
-      qTextEl.textContent = `${currentQuestionIndex + 1}. ${q.text}`;
-      optionsContainer.innerHTML = '';
+      QUESTIONS.forEach((q, qIdx) => {
+        const card = document.createElement('main');
+        card.className = 'quiz-card';
+        card.id = `q-card-${qIdx}`;
+        card.style.transition = 'all 0.3s ease';
 
-      const percent = Math.round(((currentQuestionIndex + 1) / QUESTIONS.length) * 100);
-      const remaining = QUESTIONS.length - (currentQuestionIndex + 1);
-
-      progressText.textContent = `Question ${currentQuestionIndex + 1} of ${QUESTIONS.length}`;
-      if (remaining === 0) {
-        progressLeft.textContent = `Final Question`;
-      } else if (remaining === 1) {
-        progressLeft.textContent = `1 Question Left`;
-      } else {
-        progressLeft.textContent = `${remaining} Questions Left`;
-      }
-      progressBar.style.width = `${percent}%`;
-
-      q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (userAnswers[currentQuestionIndex] === idx) {
-          btn.classList.add('selected');
-        }
-        btn.innerHTML = `
-          <span>${opt.text}</span>
-          <span class="radio-circle"></span>
-        `;
-        btn.onclick = () => selectOption(idx);
-        optionsContainer.appendChild(btn);
-      });
-
-      btnPrev.disabled = currentQuestionIndex === 0;
-      if (currentQuestionIndex === QUESTIONS.length - 1) {
-        btnNext.textContent = 'Submit Quiz';
-      } else {
-        btnNext.textContent = 'Next Question';
-      }
-
-      btnNext.disabled = userAnswers[currentQuestionIndex] === undefined;
-    }
-
-    function selectOption(idx) {
-      userAnswers[currentQuestionIndex] = idx;
-      const allBtns = optionsContainer.querySelectorAll('.option-btn');
-      allBtns.forEach((b, i) => {
-        if (i === idx) b.classList.add('selected');
-        else b.classList.remove('selected');
-      });
-      btnNext.disabled = false;
-    }
-
-    btnPrev.onclick = () => {
-      if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        renderQuestion();
-      }
-    };
-
-    btnNext.onclick = async () => {
-      if (userAnswers[currentQuestionIndex] === undefined) return;
-
-      if (currentQuestionIndex < QUESTIONS.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-      } else {
-        // Calculate scores
-        const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-        Object.keys(userAnswers).forEach(qIdx => {
-          const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
-          if (optSelected && optSelected.value) {
-            Object.keys(optSelected.value).forEach(k => {
-              scores[k] += optSelected.value[k];
-            });
-          }
+        let optionsHtml = '';
+        q.options.forEach((opt, optIdx) => {
+          const isSelected = userAnswers[qIdx] === optIdx;
+          optionsHtml += `
+            <button type="button" class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectOption(${qIdx}, ${optIdx})">
+              <span>${opt.text}</span>
+              <span class="radio-circle"></span>
+            </button>
+          `;
         });
 
-        // Submit via API
-        btnNext.disabled = true;
-        btnNext.innerHTML = `<span class="spinner"></span> Analyzing Personality...`;
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">QUESTION ${qIdx + 1} OF ${QUESTIONS.length}</span>
+            <span id="q-tag-${qIdx}" style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">${userAnswers[qIdx] !== undefined ? '✓ Answered' : 'Pending'}</span>
+          </div>
+          <h2 class="question-title" style="margin-bottom: 1.5rem;">${qIdx + 1}. ${q.text}</h2>
+          <div class="options-grid" id="options-grid-${qIdx}">
+            ${optionsHtml}
+          </div>
+        `;
 
-        try {
-          const res = await fetch('/api/submit-quiz', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: scores })
-          });
+        questionsContainer.appendChild(card);
+      });
 
-          const data = await res.json();
-          if (data.resultId) {
-            window.location.href = `/results.html?id=${data.resultId}`;
-          } else if (data.type) {
-            window.location.href = `/results.html?type=${data.type}`;
-          } else {
-            throw new Error('Invalid response structure');
+      updateProgress();
+    }
+
+    function selectOption(qIdx, optIdx) {
+      userAnswers[qIdx] = optIdx;
+      
+      const grid = document.getElementById(`options-grid-${qIdx}`);
+      if (grid) {
+        const allBtns = grid.querySelectorAll('.option-btn');
+        allBtns.forEach((b, i) => {
+          if (i === optIdx) b.classList.add('selected');
+          else b.classList.remove('selected');
+        });
+      }
+
+      const qCard = document.getElementById(`q-card-${qIdx}`);
+      if (qCard) {
+        qCard.style.borderColor = 'var(--card-border)';
+      }
+
+      const qTag = document.getElementById(`q-tag-${qIdx}`);
+      if (qTag) {
+        qTag.textContent = '✓ Answered';
+        qTag.style.color = '#10b981';
+      }
+
+      unansweredWarning.style.display = 'none';
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = QUESTIONS.length;
+      const answeredCount = Object.keys(userAnswers).length;
+      const remaining = total - answeredCount;
+      const percent = Math.round((answeredCount / total) * 100);
+
+      answeredStatus.textContent = `${answeredCount} OF ${total} ANSWERED`;
+      if (remaining === 0) {
+        questionsLeftStatus.textContent = `ALL QUESTIONS COMPLETE! 🎉`;
+        questionsLeftStatus.style.color = '#10b981';
+      } else if (remaining === 1) {
+        questionsLeftStatus.textContent = `1 QUESTION REMAINING`;
+        questionsLeftStatus.style.color = 'var(--primary)';
+      } else {
+        questionsLeftStatus.textContent = `${remaining} QUESTIONS REMAINING`;
+        questionsLeftStatus.style.color = 'var(--primary)';
+      }
+
+      progressBar.style.width = `${percent}%`;
+    }
+
+    btnSubmitAll.onclick = async () => {
+      const answeredCount = Object.keys(userAnswers).length;
+      if (answeredCount < QUESTIONS.length) {
+        unansweredWarning.style.display = 'block';
+        
+        // Highlight first unanswered question
+        for (let i = 0; i < QUESTIONS.length; i++) {
+          if (userAnswers[i] === undefined) {
+            const card = document.getElementById(`q-card-${i}`);
+            if (card) {
+              card.style.borderColor = '#e63946';
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            break;
           }
-        } catch (err) {
-          console.warn('Backend API submission fallback:', err.message);
-          // Fallback calculation directly for offline preview
-          const type = [
-            scores.E >= scores.I ? "E" : "I",
-            scores.N >= scores.S ? "N" : "S",
-            scores.T >= scores.F ? "T" : "F",
-            scores.J >= scores.P ? "J" : "P"
-          ].join("");
-          window.location.href = `/results.html?type=${type}`;
         }
+        return;
+      }
+
+      // Calculate dimension scores
+      const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+      Object.keys(userAnswers).forEach(qIdx => {
+        const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
+        if (optSelected && optSelected.value) {
+          Object.keys(optSelected.value).forEach(k => {
+            scores[k] += optSelected.value[k];
+          });
+        }
+      });
+
+      btnSubmitAll.disabled = true;
+      btnSubmitAll.innerHTML = `<span class="spinner"></span> ANALYZING PERSONALITY ARCHETYPE...`;
+
+      try {
+        const res = await fetch('/api/submit-quiz', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ answers: scores })
+        });
+
+        const data = await res.json();
+        if (data.resultId) {
+          window.location.href = `/results.html?id=${data.resultId}`;
+        } else if (data.type) {
+          window.location.href = `/results.html?type=${data.type}`;
+        } else {
+          throw new Error('Invalid response structure');
+        }
+      } catch (err) {
+        console.warn('Backend API submission fallback:', err.message);
+        const type = [
+          scores.E >= scores.I ? "E" : "I",
+          scores.N >= scores.S ? "N" : "S",
+          scores.T >= scores.F ? "T" : "F",
+          scores.J >= scores.P ? "J" : "P"
+        ].join("");
+        window.location.href = `/results.html?type=${type}`;
       }
     };
 
     document.getElementById('btn-start-quiz').onclick = () => {
       document.getElementById('landing-hero').style.display = 'none';
       document.getElementById('quiz-section').style.display = 'block';
-      renderQuestion();
+      renderAllQuestions();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     initQuiz();
