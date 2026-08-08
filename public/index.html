@@ -7,22 +7,21 @@
   <meta name="description" content="Take our quick, accurate MBTI personality test to uncover your psychological profile, strengths, ideal career paths, and relationship compatibility.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0a0c16;
-      --card-bg: rgba(22, 27, 46, 0.7);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --primary: #8b5cf6;
-      --primary-glow: rgba(139, 92, 246, 0.4);
-      --accent: #ec4899;
-      --accent-glow: rgba(236, 72, 153, 0.3);
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --option-bg: rgba(255, 255, 255, 0.04);
-      --option-hover: rgba(139, 92, 246, 0.15);
-      --option-selected: rgba(139, 92, 246, 0.35);
-      --radius: 16px;
+      --bg-dark: #0e1013;
+      --card-bg: #16191d;
+      --card-border: #2a2f36;
+      --primary: #e63946;
+      --primary-hover: #ff4d5a;
+      --accent: #e63946;
+      --text-main: #f8f9fa;
+      --text-muted: #9ba0a6;
+      --option-bg: #1c2026;
+      --option-hover: #262b33;
+      --option-selected: rgba(230, 57, 70, 0.15);
+      --radius: 0px;
     }
 
     * {
@@ -45,29 +44,6 @@
       overflow-x: hidden;
     }
 
-    /* Gradient backdrop lights */
-    .glow-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 {
-      width: 400px;
-      height: 400px;
-      background: var(--primary-glow);
-      top: -100px;
-      left: -100px;
-    }
-    .orb-2 {
-      width: 450px;
-      height: 450px;
-      background: var(--accent-glow);
-      bottom: -150px;
-      right: -100px;
-    }
-
     .container {
       width: 100%;
       max-width: 760px;
@@ -82,31 +58,31 @@
 
     .badge {
       display: inline-block;
-      padding: 6px 16px;
-      background: rgba(139, 92, 246, 0.15);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: #c4b5fd;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
+      padding: 6px 14px;
+      background: #e63946;
+      color: #ffffff;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       margin-bottom: 1rem;
     }
 
     h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.75rem;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 2.85rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #f472b6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
       margin-bottom: 0.75rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
     }
 
     p.subtitle {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       max-width: 540px;
       margin: 0 auto;
       line-height: 1.6;
@@ -120,44 +96,46 @@
       display: flex;
       justify-content: space-between;
       color: var(--text-muted);
-      font-size: 0.875rem;
-      font-weight: 500;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
+      text-transform: uppercase;
     }
     .progress-bar-bg {
       width: 100%;
       height: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
+      background: #1c2026;
+      border: 1px solid var(--card-border);
+      border-radius: 0px;
       overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-      border-radius: 999px;
+      background: var(--primary);
+      border-radius: 0px;
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* Quiz Card */
     .quiz-card {
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 2.5rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       transition: transform 0.3s ease;
     }
 
     .question-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 600;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
       margin-bottom: 1.75rem;
       line-height: 1.5;
       color: #ffffff;
+      letter-spacing: -0.01em;
     }
 
     .options-grid {
@@ -168,10 +146,10 @@
 
     .option-btn {
       background: var(--option-bg);
-      border: 1px solid var(--card-border);
+      border: 2px solid var(--card-border);
       color: var(--text-main);
       padding: 1.1rem 1.4rem;
-      border-radius: 12px;
+      border-radius: 0px;
       font-size: 1rem;
       font-family: 'Inter', sans-serif;
       font-weight: 500;
@@ -185,28 +163,27 @@
 
     .option-btn:hover {
       background: var(--option-hover);
-      border-color: rgba(139, 92, 246, 0.4);
-      transform: translateY(-2px);
+      border-color: var(--primary);
+      transform: translateX(4px);
     }
 
     .option-btn.selected {
       background: var(--option-selected);
       border-color: var(--primary);
-      box-shadow: 0 0 15px var(--primary-glow);
+      box-shadow: inset 4px 0 0 var(--primary);
     }
 
     .radio-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 0px;
       border: 2px solid var(--text-muted);
       transition: all 0.2s ease;
     }
 
     .option-btn.selected .radio-circle {
-      border-color: #ffffff;
+      border-color: var(--primary);
       background: var(--primary);
-      box-shadow: inset 0 0 0 3px #ffffff;
     }
 
     .controls {
@@ -218,17 +195,20 @@
 
     .btn-secondary {
       background: transparent;
-      border: 1px solid var(--card-border);
+      border: 2px solid var(--card-border);
       color: var(--text-muted);
       padding: 0.75rem 1.5rem;
-      border-radius: 10px;
-      font-weight: 600;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s;
     }
     .btn-secondary:hover:not(:disabled) {
       color: var(--text-main);
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: var(--text-main);
     }
     .btn-secondary:disabled {
       opacity: 0.3;
@@ -236,20 +216,23 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-      border: none;
+      background: var(--primary);
+      border: 2px solid var(--primary);
       color: #ffffff;
       padding: 0.85rem 2rem;
-      border-radius: 10px;
-      font-weight: 600;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       cursor: pointer;
-      box-shadow: 0 4px 15px var(--primary-glow);
       transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
     }
     .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--primary-glow);
     }
     .btn-primary:disabled {
       opacity: 0.4;
@@ -259,10 +242,10 @@
 
     .spinner {
       display: inline-block;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
+      border-radius: 0px;
       border-top-color: #fff;
       animation: spin 0.8s linear infinite;
       margin-right: 8px;

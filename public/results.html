@@ -7,22 +7,21 @@
   <meta name="description" content="Detailed MBTI personality archetype result breakdown, score metrics, career paths, and traits.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
-      --bg-dark: #0a0c16;
-      --card-bg: rgba(22, 27, 46, 0.75);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --primary: #8b5cf6;
-      --primary-glow: rgba(139, 92, 246, 0.4);
-      --accent: #ec4899;
-      --accent-glow: rgba(236, 72, 153, 0.3);
+      --bg-dark: #0e1013;
+      --card-bg: #16191d;
+      --card-border: #2a2f36;
+      --primary: #e63946;
+      --primary-hover: #ff4d5a;
+      --accent: #e63946;
       --green: #10b981;
       --amber: #f59e0b;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --radius: 20px;
+      --text-main: #f8f9fa;
+      --text-muted: #9ba0a6;
+      --radius: 0px;
     }
 
     * {
@@ -44,28 +43,6 @@
       overflow-x: hidden;
     }
 
-    .glow-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 {
-      width: 500px;
-      height: 500px;
-      background: var(--primary-glow);
-      top: -150px;
-      left: -150px;
-    }
-    .orb-2 {
-      width: 550px;
-      height: 550px;
-      background: var(--accent-glow);
-      top: 30%;
-      right: -200px;
-    }
-
     .container {
       width: 100%;
       max-width: 900px;
@@ -76,13 +53,11 @@
     /* Hero Header */
     .hero-card {
       background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 3rem 2rem;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       margin-bottom: 2rem;
       position: relative;
     }
@@ -95,9 +70,10 @@
       border: 1px solid rgba(16, 185, 129, 0.3);
       color: #6ee7b7;
       padding: 4px 12px;
-      border-radius: 999px;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -106,35 +82,36 @@
       width: 6px;
       height: 6px;
       background: #10b981;
-      border-radius: 50%;
+      border-radius: 0px;
     }
 
     .type-code {
-      font-family: 'Outfit', sans-serif;
-      font-size: 4.5rem;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 5rem;
       font-weight: 800;
       letter-spacing: 4px;
-      background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--primary);
       line-height: 1;
       margin-bottom: 0.5rem;
+      text-transform: uppercase;
     }
 
     .type-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 2rem;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
     }
 
     .type-motto {
-      font-size: 1.15rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
       color: #d1d5db;
       max-width: 600px;
       margin: 0 auto 1.5rem auto;
-      font-style: italic;
     }
 
     .type-overview {
@@ -147,14 +124,16 @@
 
     /* Dimensions Breakdown */
     .section-title {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Hanken Grotesk', sans-serif;
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 1.5rem;
       color: #ffffff;
       display: flex;
       align-items: center;
       gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
     }
 
     .metrics-grid {
@@ -162,9 +141,8 @@
       flex-direction: column;
       gap: 1.25rem;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 2rem;
       margin-bottom: 2.5rem;
     }
@@ -178,29 +156,32 @@
     .metric-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
     }
-    .metric-left { color: #a78bfa; }
-    .metric-right { color: #f472b6; }
+    .metric-left { color: #f8f9fa; }
+    .metric-right { color: var(--primary); }
 
     .metric-bar-bg {
       height: 12px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
+      background: #1c2026;
+      border: 1px solid var(--card-border);
+      border-radius: 0px;
       overflow: hidden;
       display: flex;
     }
 
     .metric-bar-left {
       height: 100%;
-      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      background: #ffffff;
       transition: width 0.8s ease-out;
     }
     .metric-bar-right {
       height: 100%;
-      background: linear-gradient(90deg, #f472b6, #db2777);
+      background: var(--primary);
       transition: width 0.8s ease-out;
     }
 
@@ -214,9 +195,8 @@
 
     .detail-card {
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 2rem;
     }
 
@@ -228,17 +208,19 @@
     }
 
     .tag {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #1c2026;
+      border: 1px solid var(--card-border);
       padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.875rem;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
       color: #e5e7eb;
     }
-    .tag.strength { border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.1); color: #a7f3d0; }
-    .tag.weakness { border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.1); color: #fde68a; }
-    .tag.career { border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.1); color: #ddd6fe; }
-    .tag.famous { border-color: rgba(236, 72, 153, 0.3); background: rgba(236, 72, 153, 0.1); color: #fbcfe8; }
+    .tag.strength { border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1); color: #a7f3d0; }
+    .tag.weakness { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); color: #fde68a; }
+    .tag.career { border-color: rgba(230, 57, 70, 0.4); background: rgba(230, 57, 70, 0.1); color: #ffccd5; }
+    .tag.famous { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.08); color: #ffffff; }
 
     /* Actions Footer */
     .action-bar {
@@ -250,11 +232,13 @@
 
     .btn {
       padding: 0.9rem 1.8rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.95rem;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
       transition: all 0.2s ease;
       text-decoration: none;
       display: inline-flex;
@@ -263,38 +247,39 @@
     }
 
     .btn-retake {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--card-border);
+      background: transparent;
+      border: 2px solid var(--card-border);
       color: #ffffff;
     }
     .btn-retake:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
     }
 
     .btn-share {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-      border: none;
+      background: var(--primary);
+      border: 2px solid var(--primary);
       color: #ffffff;
-      box-shadow: 0 4px 15px var(--primary-glow);
     }
     .btn-share:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
     .btn-pdf {
       background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 2px solid rgba(16, 185, 129, 0.4);
       color: #6ee7b7;
     }
     .btn-pdf:hover {
       background: rgba(16, 185, 129, 0.25);
-      border-color: rgba(16, 185, 129, 0.5);
+      border-color: #10b981;
     }
 
     @media print {
       body {
-        background: #0a0c16 !important;
+        background: #0e1013 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }

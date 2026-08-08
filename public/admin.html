@@ -7,21 +7,20 @@
   <meta name="description" content="Visual Admin Editor for MBTI Quiz questions powered by Netlify Blobs.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0a0c16;
-      --card-bg: rgba(22, 27, 46, 0.75);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --primary: #8b5cf6;
-      --primary-glow: rgba(139, 92, 246, 0.4);
-      --accent: #ec4899;
-      --accent-glow: rgba(236, 72, 153, 0.3);
+      --bg-dark: #0e1013;
+      --card-bg: #16191d;
+      --card-border: #2a2f36;
+      --primary: #e63946;
+      --primary-hover: #ff4d5a;
+      --accent: #e63946;
       --green: #10b981;
-      --red: #ef4444;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --radius: 16px;
+      --red: #e63946;
+      --text-main: #f8f9fa;
+      --text-muted: #9ba0a6;
+      --radius: 0px;
     }
 
     * {
@@ -42,16 +41,6 @@
       position: relative;
     }
 
-    .glow-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 { width: 450px; height: 450px; background: var(--primary-glow); top: -100px; left: -100px; }
-    .orb-2 { width: 500px; height: 500px; background: var(--accent-glow); bottom: -150px; right: -100px; }
-
     .container {
       width: 100%;
       max-width: 900px;
@@ -66,26 +55,26 @@
 
     .badge {
       display: inline-block;
-      padding: 6px 16px;
-      background: rgba(139, 92, 246, 0.15);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: #c4b5fd;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
+      padding: 6px 14px;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       margin-bottom: 1rem;
     }
 
     h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.5rem;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 2.75rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #f472b6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
       margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
     }
 
     p.subtitle {
@@ -99,9 +88,8 @@
       justify-content: space-between;
       align-items: center;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 1.25rem 1.75rem;
       margin-bottom: 2rem;
       flex-wrap: wrap;
@@ -110,11 +98,13 @@
 
     .btn {
       padding: 0.75rem 1.5rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.9rem;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
       transition: all 0.2s ease;
       border: none;
       display: inline-flex;
@@ -123,36 +113,39 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      background: var(--primary);
+      border: 2px solid var(--primary);
       color: #fff;
-      box-shadow: 0 4px 15px var(--primary-glow);
     }
     .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--card-border);
+      background: transparent;
+      border: 2px solid var(--card-border);
       color: var(--text-main);
     }
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
+      background: rgba(230, 57, 70, 0.15);
+      border: 2px solid rgba(230, 57, 70, 0.4);
+      color: #ffccd5;
     }
     .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.3);
+      background: rgba(230, 57, 70, 0.3);
+      border-color: var(--primary);
     }
 
     .btn-sm {
       padding: 0.4rem 0.8rem;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     /* Question Cards List */
@@ -165,9 +158,8 @@
 
     .q-card {
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 1.75rem;
       position: relative;
     }
@@ -181,29 +173,32 @@
     }
 
     .q-number {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Space Mono', monospace;
       font-weight: 700;
       font-size: 1.1rem;
-      color: #c4b5fd;
+      color: var(--primary);
+      text-transform: uppercase;
     }
 
     .select-dim {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--card-border);
+      background: #0e1013;
+      border: 2px solid var(--card-border);
       color: var(--text-main);
       padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-weight: 600;
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
       outline: none;
     }
 
     .input-text {
       width: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--card-border);
+      background: #0e1013;
+      border: 2px solid var(--card-border);
       color: #fff;
       padding: 0.8rem 1rem;
-      border-radius: 10px;
+      border-radius: 0px;
       font-size: 1rem;
       font-family: 'Inter', sans-serif;
       margin-bottom: 1.25rem;
@@ -229,23 +224,24 @@
 
     .input-opt-text {
       flex: 1;
-      background: rgba(255, 255, 255, 0.04);
+      background: #0e1013;
       border: 1px solid var(--card-border);
       color: var(--text-main);
       padding: 0.6rem 0.9rem;
-      border-radius: 8px;
+      border-radius: 0px;
       font-size: 0.9rem;
     }
 
     .input-opt-val {
       width: 120px;
-      background: rgba(255, 255, 255, 0.04);
+      background: #0e1013;
       border: 1px solid var(--card-border);
-      color: #c4b5fd;
+      color: var(--primary);
       padding: 0.6rem 0.9rem;
-      border-radius: 8px;
+      border-radius: 0px;
       font-size: 0.85rem;
-      font-family: monospace;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
     }
 
     /* Password Modal */
@@ -255,8 +251,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(10, 12, 22, 0.85);
-      backdrop-filter: blur(20px);
+      background: rgba(14, 16, 19, 0.95);
       z-index: 1000;
       display: flex;
       align-items: center;
@@ -266,17 +261,20 @@
 
     .login-box {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      border: 2px solid var(--card-border);
+      border-radius: 0px;
       padding: 2.5rem;
       width: 100%;
       max-width: 420px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     }
 
     .login-box h2 {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
 
@@ -289,6 +287,7 @@
     .error-msg {
       color: var(--red);
       font-size: 0.85rem;
+      font-family: 'Space Mono', monospace;
       margin-top: 0.75rem;
       display: none;
     }
@@ -298,13 +297,15 @@
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background: rgba(16, 185, 129, 0.9);
+      background: var(--primary);
       color: #fff;
       padding: 1rem 1.5rem;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
+      border-radius: 0px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
       z-index: 100;
       opacity: 0;
       transform: translateY(20px);
