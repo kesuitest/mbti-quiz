@@ -262,17 +262,15 @@
   <div class="glow-orb orb-2"></div>
 
   <div class="container">
-    <!-- Landing Hero Screen -->
-    <div class="hero-card" id="landing-hero" style="text-align: center; background: var(--card-bg); border: 2px solid var(--card-border); padding: 3.5rem 2rem; margin-bottom: 2rem;">
+    <header style="text-align: center; margin-bottom: 2.5rem;">
       <span class="badge">Personality Assessment • v3.5</span>
       <a href="/admin.html" style="float: right; color: var(--text-muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">⚙️ QUESTION ADMIN</a>
-      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1.5rem 0 1rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
-      <p class="subtitle" style="max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.1rem; line-height: 1.65; color: var(--text-muted);">Take our accurate 12-question MBTI assessment to unlock your psychological profile, strengths, optimal career paths, and relationship compatibility.</p>
-      <button class="btn btn-primary" id="btn-start-quiz" onclick="startQuiz()" style="font-size: 1.05rem; padding: 1.1rem 2.8rem; cursor: pointer;">🚀 START ASSESSMENT</button>
-    </div>
+      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1rem 0 0.5rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
+      <p class="subtitle" style="max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted);">Answer all 12 questions below and click submit to uncover your psychological profile, strengths, and career compatibility.</p>
+    </header>
 
     <!-- Quiz Question Flow Section (All Questions on 1 Page) -->
-    <div id="quiz-section" style="display: none;">
+    <div id="quiz-section">
       <div class="progress-wrapper" style="position: sticky; top: 0; z-index: 10; background: var(--bg-dark); padding: 1rem 0; border-bottom: 2px solid var(--card-border); margin-bottom: 2rem;">
         <div class="progress-labels">
           <span id="answered-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700;">0 OF 12 ANSWERED</span>
@@ -584,16 +582,6 @@
         window.location.href = `/results.html?type=${type}`;
       }
     };
-
-    function startQuiz() {
-      const hero = document.getElementById('landing-hero');
-      const section = document.getElementById('quiz-section');
-      if (hero) hero.style.display = 'none';
-      if (section) section.style.display = 'block';
-      renderAllQuestions();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    window.startQuiz = startQuiz;
 
     initQuiz();
   </script>
