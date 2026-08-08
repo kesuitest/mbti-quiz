@@ -308,7 +308,7 @@
   </div>
 
   <script>
-    const QUESTIONS = [
+    const DEFAULT_QUESTIONS = [
       {
         id: 1,
         dim: 'EI',
@@ -426,6 +426,21 @@
         ]
       }
     ];
+
+    let QUESTIONS = DEFAULT_QUESTIONS;
+
+    async function initQuiz() {
+      try {
+        const res = await fetch('/api/get-questions');
+        const data = await res.json();
+        if (data.questions && data.questions.length > 0) {
+          QUESTIONS = data.questions;
+        }
+      } catch (err) {
+        console.warn('Using default static questions fallback:', err);
+      }
+      renderQuestion();
+    }
 
     let currentQuestionIndex = 0;
     const userAnswers = {}; // qIndex -> optionIndex
