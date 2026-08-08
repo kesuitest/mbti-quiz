@@ -352,6 +352,9 @@
       </div>
     </div>
 
+    <h3 class="section-title">Cognitive Function Stack Breakdown</h3>
+    <div id="cognitive-functions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;"></div>
+
     <div class="details-grid">
       <div class="detail-card">
         <h3 class="section-title" style="font-size: 1.25rem;">Core Strengths</h3>
@@ -432,6 +435,9 @@
       document.getElementById('bar-J').style.width = `${p.J}%`;
       document.getElementById('bar-P').style.width = `${p.P}%`;
 
+      // Cognitive Functions
+      renderCognitiveFunctions(data.cognitiveFunctions || []);
+
       // Tags
       populateTags('strengths-list', data.strengths, 'strength');
       populateTags('weaknesses-list', data.weaknesses, 'weakness');
@@ -439,8 +445,34 @@
       populateTags('famous-list', data.famous, 'famous');
     }
 
+    function renderCognitiveFunctions(functions) {
+      const grid = document.getElementById('cognitive-functions-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (!functions || functions.length === 0) {
+        grid.innerHTML = '<p style="color: var(--text-muted); font-size: 0.95rem;">No cognitive function breakdown available.</p>';
+        return;
+      }
+
+      functions.forEach(fn => {
+        const card = document.createElement('div');
+        card.style.cssText = 'background: var(--card-bg); border: 2px solid var(--card-border); padding: 1.75rem; border-radius: 0px; position: relative;';
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; background: rgba(230, 57, 70, 0.15); border: 1px solid var(--primary); color: #ffccd5; padding: 4px 10px; text-transform: uppercase;">${fn.role}</span>
+            <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--primary); font-family: 'Space Mono', monospace;">${fn.code}</span>
+          </div>
+          <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; text-transform: uppercase;">${fn.name}</h4>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.55;">${fn.desc}</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
     function populateTags(containerId, items, className) {
-      const el = document.innerHTML ? document.getElementById(containerId) : document.getElementById(containerId);
+      const el = document.getElementById(containerId);
+      if (!el) return;
       el.innerHTML = '';
       (items || []).forEach(item => {
         const span = document.createElement('span');
@@ -461,6 +493,12 @@
         weaknesses: ["Sensitive to Criticism", "Perfectionistic", "Burnout Prone"],
         careers: ["Psychologist", "UX Designer", "Author", "Counselor"],
         famous: ["Martin Luther King Jr.", "Carl Jung", "Nelson Mandela"],
+        cognitiveFunctions: [
+          { code: "Ni", name: "Introverted Intuition", role: "Dominant (Hero)", desc: "Perceives hidden meanings, underlying patterns, and future trajectories for humanity." },
+          { code: "Fe", name: "Extraverted Feeling", role: "Auxiliary (Co-Pilot)", desc: "Empathizes deeply with others, creating interpersonal warmth and group harmony." },
+          { code: "Ti", name: "Introverted Thinking", role: "Tertiary (Relief)", desc: "Analyzes insights logically to validate intuitive impressions." },
+          { code: "Se", name: "Extraverted Sensing", role: "Inferior (Aspiration)", desc: "Can feel overwhelmed by noisy environments, but enjoys rich aesthetic experiences." }
+        ],
         storedInBlobs: false
       });
     }
