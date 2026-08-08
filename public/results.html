@@ -353,8 +353,56 @@
       </div>
     </div>
 
-    <h3 class="section-title">Cognitive Function Stack Breakdown</h3>
+    <h3 class="section-title">Cognitive Function Stack & Personality Architecture</h3>
+    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; max-width: 800px;">Based on Carl Jung's psychological model, your personality is driven by four core mental functions operating in a specific hierarchy: Dominant (Hero), Auxiliary (Co-Pilot), Tertiary (Relief), and Inferior (Life Mastery Gateway).</p>
     <div id="cognitive-functions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;"></div>
+
+    <h3 class="section-title">Personal Growth & Balance Roadmap</h3>
+    <div id="growth-roadmap-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+      <div style="background: var(--card-bg); border: 2px solid var(--card-border); padding: 1.75rem; border-radius: 0px;">
+        <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #a7f3d0; padding: 4px 10px; text-transform: uppercase;">🚀 CO-PILOT INTEGRATION</span>
+        <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #ffffff; margin: 0.75rem 0 0.5rem 0; text-transform: uppercase;">Balancing Your Primary Drive</h4>
+        <p id="copilot-advice-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Engaging your Auxiliary function prevents one-sided personality loops and builds emotional maturity.</p>
+      </div>
+
+      <div style="background: var(--card-bg); border: 2px solid var(--card-border); padding: 1.75rem; border-radius: 0px;">
+        <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fde68a; padding: 4px 10px; text-transform: uppercase;">🌱 INFERIOR FUNCTION MASTERY</span>
+        <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #ffffff; margin: 0.75rem 0 0.5rem 0; text-transform: uppercase;">Overcoming Stress Triggers</h4>
+        <p id="inferior-advice-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Understanding your Inferior function reveals how stress affects you and how to achieve long-term psychological growth.</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">Enneagram Correlation & Core Motivation Guidance</h3>
+    <div id="enneagram-container" style="background: var(--card-bg); border: 2px solid var(--card-border); padding: 2rem; border-radius: 0px; margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <span style="font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;" id="enn-primary">ENNEAGRAM TYPE --</span>
+          <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-top: 4px;" id="enn-title">Loading Enneagram Profile...</h4>
+        </div>
+        <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; background: rgba(230, 57, 70, 0.15); border: 1px solid var(--primary); color: #ffccd5; padding: 6px 14px; text-transform: uppercase;">MOTIVATIONAL ARCHETYPE</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.25rem;">
+          <strong style="color: #10b981; font-family: 'Space Mono', monospace; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 6px;">✨ CORE DESIRE:</strong>
+          <span style="color: #f8f9fa; font-size: 0.95rem; line-height: 1.5;" id="enn-desire">--</span>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.25rem;">
+          <strong style="color: #f59e0b; font-family: 'Space Mono', monospace; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 6px;">⚠️ CORE FEAR & FIXATION:</strong>
+          <span style="color: #f8f9fa; font-size: 0.95rem; line-height: 1.5;" id="enn-fear">--</span>
+        </div>
+      </div>
+
+      <div style="background: rgba(16, 185, 129, 0.08); border-left: 4px solid #10b981; padding: 1.25rem; margin-bottom: 1.25rem;">
+        <strong style="color: #a7f3d0; font-family: 'Space Mono', monospace; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 4px;">🎯 INTEGRATION GROWTH PATH:</strong>
+        <span style="color: #ffffff; font-size: 0.95rem; line-height: 1.55;" id="enn-integration">--</span>
+      </div>
+
+      <div style="background: rgba(230, 57, 70, 0.08); border-left: 4px solid var(--primary); padding: 1.25rem;">
+        <strong style="color: #ffccd5; font-family: 'Space Mono', monospace; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 4px;">💡 ENNEAGRAM LIFE GUIDANCE:</strong>
+        <span style="color: #ffffff; font-size: 0.95rem; line-height: 1.6;" id="enn-guidance">--</span>
+      </div>
+    </div>
 
     <div class="details-grid">
       <div class="detail-card">
@@ -445,8 +493,17 @@
       document.getElementById('bar-J').style.width = `${p.J}%`;
       document.getElementById('bar-P').style.width = `${p.P}%`;
 
-      // Cognitive Functions
+      // Cognitive Functions & Growth Roadmap
       renderCognitiveFunctions(data.cognitiveFunctions || []);
+      if (data.growthRoadmap) {
+        const copilotEl = document.getElementById('copilot-advice-text');
+        const inferiorEl = document.getElementById('inferior-advice-text');
+        if (copilotEl && data.growthRoadmap.copilotAdvice) copilotEl.textContent = data.growthRoadmap.copilotAdvice;
+        if (inferiorEl && data.growthRoadmap.inferiorAdvice) inferiorEl.textContent = data.growthRoadmap.inferiorAdvice;
+      }
+
+      // Enneagram Guidance
+      renderEnneagram(data.enneagram);
 
       // Tags
       populateTags('strengths-list', data.strengths, 'strength');
@@ -467,17 +524,56 @@
 
       functions.forEach(fn => {
         const card = document.createElement('div');
-        card.style.cssText = 'background: var(--card-bg); border: 2px solid var(--card-border); padding: 1.75rem; border-radius: 0px; position: relative;';
+        card.style.cssText = 'background: var(--card-bg); border: 2px solid var(--card-border); padding: 1.75rem; border-radius: 0px; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;';
+        
+        let warningBadgeStyle = 'border-color: var(--card-border); color: var(--text-muted);';
+        if (fn.role === 'Dominant') warningBadgeStyle = 'border-color: rgba(230, 57, 70, 0.4); background: rgba(230, 57, 70, 0.1); color: #ffccd5;';
+        if (fn.role === 'Auxiliary') warningBadgeStyle = 'border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1); color: #a7f3d0;';
+        if (fn.role === 'Inferior') warningBadgeStyle = 'border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); color: #fde68a;';
+
         card.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
-            <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; background: rgba(230, 57, 70, 0.15); border: 1px solid var(--primary); color: #ffccd5; padding: 4px 10px; text-transform: uppercase;">${fn.role}</span>
-            <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--primary); font-family: 'Space Mono', monospace;">${fn.code}</span>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; ${warningBadgeStyle} padding: 4px 10px; text-transform: uppercase;">${fn.badge || fn.role}</span>
+              <span style="font-family: 'Space Mono', monospace; font-size: 1.6rem; font-weight: 800; color: var(--primary);">${fn.code}</span>
+            </div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--primary); text-transform: uppercase; font-weight: 700; margin-bottom: 0.25rem;">${fn.analogy || fn.roleTitle || fn.role}</div>
+            <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.35rem; font-weight: 800; color: #ffffff; margin-bottom: 0.25rem; text-transform: uppercase;">${fn.name}</h4>
+            <div style="font-family: 'Space Mono', monospace; font-size: 0.8rem; color: #d1d5db; font-weight: 700; margin-bottom: 1rem;">"${fn.nickname || 'Mental Process'}"</div>
+            
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">${fn.explanation || fn.desc}</p>
           </div>
-          <h4 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; text-transform: uppercase;">${fn.name}</h4>
-          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.55;">${fn.desc}</p>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: rgba(255, 255, 255, 0.03); border-top: 1px solid var(--card-border); padding-top: 1rem; font-size: 0.85rem; line-height: 1.5;">
+            <div>
+              <strong style="color: #10b981; font-family: 'Space Mono', monospace; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 2px;">⚡ STRENGTH IMPACT:</strong>
+              <span style="color: #e5e7eb;">${fn.strengthImpact || fn.coreFocus}</span>
+            </div>
+            <div>
+              <strong style="color: #f59e0b; font-family: 'Space Mono', monospace; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 2px;">⚠️ WEAKNESS & GROWTH GATEWAY:</strong>
+              <span style="color: #d1d5db;">${fn.weaknessWarning || fn.howItWorks}</span>
+            </div>
+          </div>
         `;
         grid.appendChild(card);
       });
+    }
+
+    function renderEnneagram(enn) {
+      if (!enn) return;
+      const primaryEl = document.getElementById('enn-primary');
+      const titleEl = document.getElementById('enn-title');
+      const desireEl = document.getElementById('enn-desire');
+      const fearEl = document.getElementById('enn-fear');
+      const integrationEl = document.getElementById('enn-integration');
+      const guidanceEl = document.getElementById('enn-guidance');
+
+      if (primaryEl) primaryEl.textContent = `ENNEAGRAM ${enn.primaryType || 'TYPE'}`;
+      if (titleEl) titleEl.textContent = enn.title || 'Motivational Archetype';
+      if (desireEl) desireEl.textContent = enn.coreDesire || '--';
+      if (fearEl) fearEl.textContent = `${enn.coreFear || ''} ${enn.keyPassion ? `(${enn.keyPassion})` : ''}`;
+      if (integrationEl) integrationEl.textContent = enn.integrationPath || '--';
+      if (guidanceEl) guidanceEl.textContent = enn.guidance || '--';
     }
 
     function populateTags(containerId, items, className) {
