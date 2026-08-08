@@ -1,6 +1,6 @@
 {
   "name": "mbti-quiz",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "MBTI Personality Quiz with Netlify Functions and Netlify Blobs storage",
   "type": "module",
   "scripts": {
