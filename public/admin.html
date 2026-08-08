@@ -339,7 +339,7 @@
 
   <div class="container" id="admin-content" style="display: none;">
     <header>
-      <span class="badge">Netlify Blobs Question Manager</span>
+      <span class="badge">Question Manager</span>
       <h1>MBTI Question Editor</h1>
       <p class="subtitle">Customize quiz questions, dimension weights, and options live on Netlify.</p>
     </header>
@@ -351,7 +351,7 @@
       </div>
       <div>
         <button class="btn btn-danger" id="btn-reset">🔄 Reset Defaults</button>
-        <button class="btn btn-primary" id="btn-save">💾 Save to Netlify Blobs</button>
+        <button class="btn btn-primary" id="btn-save">💾 Save Changes</button>
       </div>
     </div>
 
@@ -360,7 +360,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">Changes saved to Netlify Blobs!</div>
+  <div class="toast" id="toast">Changes saved!</div>
 
   <script>
     let questions = [];
@@ -506,7 +506,7 @@
 
     document.getElementById('btn-save').onclick = async () => {
       const btn = document.getElementById('btn-save');
-      btn.innerHTML = '⌛ Saving to Blobs...';
+      btn.innerHTML = '⌛ Saving...';
 
       try {
         const res = await fetch('/api/save-questions', {
@@ -528,7 +528,7 @@
       } catch (err) {
         showToast('Error saving questions: ' + err.message);
       } finally {
-        btn.innerHTML = '💾 Save to Netlify Blobs';
+        btn.innerHTML = '💾 Save Changes';
       }
     };
 
