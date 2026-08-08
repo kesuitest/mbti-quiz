@@ -276,7 +276,7 @@
       <div class="progress-wrapper">
         <div class="progress-labels">
           <span id="progress-text">Question 1 of 12</span>
-          <span id="progress-percent">8% Completed</span>
+          <span id="progress-left">11 Questions Left</span>
         </div>
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="progress-bar"></div>
@@ -441,7 +441,7 @@
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
     const progressText = document.getElementById('progress-text');
-    const progressPercent = document.getElementById('progress-percent');
+    const progressLeft = document.getElementById('progress-left');
     const progressBar = document.getElementById('progress-bar');
 
     function renderQuestion() {
@@ -453,8 +453,16 @@
       optionsContainer.innerHTML = '';
 
       const percent = Math.round(((currentQuestionIndex + 1) / QUESTIONS.length) * 100);
+      const remaining = QUESTIONS.length - (currentQuestionIndex + 1);
+
       progressText.textContent = `Question ${currentQuestionIndex + 1} of ${QUESTIONS.length}`;
-      progressPercent.textContent = `${percent}% Completed`;
+      if (remaining === 0) {
+        progressLeft.textContent = `Final Question`;
+      } else if (remaining === 1) {
+        progressLeft.textContent = `1 Question Left`;
+      } else {
+        progressLeft.textContent = `${remaining} Questions Left`;
+      }
       progressBar.style.width = `${percent}%`;
 
       q.options.forEach((opt, idx) => {
