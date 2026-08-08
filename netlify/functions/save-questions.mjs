@@ -1,5 +1,7 @@
 import { getStore } from "@netlify/blobs";
 
+const ADMIN_PASSWORD = "mewmewdog";
+
 export default async (req, context) => {
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
@@ -10,7 +12,17 @@ export default async (req, context) => {
 
   try {
     const body = await req.json();
-    const { questions, reset } = body;
+    const { questions, reset, password } = body;
+    const authHeader = req.headers.get("x-admin-password");
+
+    const providedPassword = password || authHeader;
+
+    if (providedPassword !== ADMIN_PASSWORD) {
+      return new Response(JSON.stringify({ error: "Unauthorized: Invalid admin password" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
 
     const store = getStore("mbti-config");
 
@@ -29,7 +41,6 @@ export default async (req, context) => {
       });
     }
 
-    // Format questions and assign IDs
     const formattedQuestions = questions.map((q, index) => ({
       id: index + 1,
       dim: q.dim || 'EI',

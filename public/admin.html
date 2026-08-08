@@ -248,6 +248,51 @@
       font-family: monospace;
     }
 
+    /* Password Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 12, 22, 0.85);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .login-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-box h2 {
+      font-family: 'Outfit', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-box p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .error-msg {
+      color: var(--red);
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
     /* Toast Alert */
     .toast {
       position: fixed;
@@ -277,7 +322,22 @@
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
 
-  <div class="container">
+  <!-- Password Authentication Modal -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="login-box">
+      <span class="badge">Protected Admin Area</span>
+      <h2>Admin Login</h2>
+      <p>Enter your password to access the question editor.</p>
+      
+      <form id="login-form">
+        <input type="password" id="admin-pass" class="input-text" placeholder="Enter Admin Password..." style="margin-bottom: 1rem;" required autofocus>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">🔒 Unlock Dashboard</button>
+        <div class="error-msg" id="login-err">Incorrect password. Please try again.</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container" id="admin-content" style="display: none;">
     <header>
       <span class="badge">Netlify Blobs Question Manager</span>
       <h1>MBTI Question Editor</h1>
@@ -304,6 +364,37 @@
 
   <script>
     let questions = [];
+    let adminToken = sessionStorage.getItem('mbti_admin_pass') || '';
+
+    const loginModal = document.getElementById('login-modal');
+    const adminContent = document.getElementById('admin-content');
+    const loginForm = document.getElementById('login-form');
+    const adminPassInput = document.getElementById('admin-pass');
+    const loginErr = document.getElementById('login-err');
+
+    if (adminToken === 'mewmewdog') {
+      unlockAdmin();
+    }
+
+    loginForm.onsubmit = (e) => {
+      e.preventDefault();
+      const entered = adminPassInput.value.trim();
+      if (entered === 'mewmewdog') {
+        adminToken = entered;
+        sessionStorage.setItem('mbti_admin_pass', entered);
+        unlockAdmin();
+      } else {
+        loginErr.style.display = 'block';
+        adminPassInput.value = '';
+        adminPassInput.focus();
+      }
+    };
+
+    function unlockAdmin() {
+      loginModal.style.display = 'none';
+      adminContent.style.display = 'block';
+      loadQuestions();
+    }
 
     async function loadQuestions() {
       try {
@@ -374,7 +465,6 @@
 
     function updateOptValue(qIdx, optIdx, valStr) {
       try {
-        // Parse simple object e.g. {E:2, I:0}
         let clean = valStr.trim();
         if (!clean.startsWith('{')) clean = '{' + clean + '}';
         clean = clean.replace(/([A-Z]):/g, '"$1":');
@@ -421,11 +511,20 @@
       try {
         const res = await fetch('/api/save-questions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ questions })
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ questions, password: adminToken })
         });
         const data = await res.json();
-        showToast(data.message || 'Saved successfully!');
+        if (res.status === 401) {
+          showToast('Unauthorized: Incorrect password!');
+          sessionStorage.removeItem('mbti_admin_pass');
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showToast(data.message || 'Saved successfully!');
+        }
       } catch (err) {
         showToast('Error saving questions: ' + err.message);
       } finally {
@@ -434,13 +533,17 @@
     };
 
     document.getElementById('btn-reset').onclick = async () => {
-      if (!confirm('Are you sure you want to reset all questions to the default 12-question set?')) return;
+      if (!confirm('Are you sure you want to reset all questions to the default set?')) return;
       try {
-        await fetch('/api/save-questions', {
+        const res = await fetch('/api/save-questions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ reset: true })
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ reset: true, password: adminToken })
         });
+        const data = await res.json();
         showToast('Reset to default questions!');
         loadQuestions();
       } catch (err) {
@@ -454,8 +557,6 @@
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-
-    loadQuestions();
   </script>
 </body>
 </html>
