@@ -448,11 +448,13 @@
         card.style.transition = 'all 0.3s ease';
 
         let optionsHtml = '';
+        const optionLetters = ['A', 'B', 'C', 'D'];
         q.options.forEach((opt, optIdx) => {
           const isSelected = userAnswers[qIdx] === optIdx;
+          const letter = optionLetters[optIdx] || (optIdx + 1);
           optionsHtml += `
             <button type="button" class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectOption(${qIdx}, ${optIdx})">
-              <span>${opt.text}</span>
+              <span><strong style="color: var(--primary); font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-right: 10px;">${letter}.</strong>${opt.text}</span>
               <span class="radio-circle"></span>
             </button>
           `;
