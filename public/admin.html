@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI Quiz Admin - Edit Questions</title>
+  <meta name="description" content="Visual Admin Editor for MBTI Quiz questions powered by Netlify Blobs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c16;
+      --card-bg: rgba(22, 27, 46, 0.75);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.4);
+      --accent: #ec4899;
+      --accent-glow: rgba(236, 72, 153, 0.3);
+      --green: #10b981;
+      --red: #ef4444;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem;
+      position: relative;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 450px; height: 450px; background: var(--primary-glow); top: -100px; left: -100px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--accent-glow); bottom: -150px; right: -100px; }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      z-index: 1;
+      position: relative;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c4b5fd;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Top Control Bar */
+    .control-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    /* Question Cards List */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .q-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .q-number {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #c4b5fd;
+    }
+
+    .select-dim {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .input-text {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 1.25rem;
+      outline: none;
+    }
+    .input-text:focus {
+      border-color: var(--primary);
+    }
+
+    /* Option Editor */
+    .options-editor {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .opt-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .input-opt-text {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .input-opt-val {
+      width: 120px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: #c4b5fd;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: monospace;
+    }
+
+    /* Toast Alert */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(16, 185, 129, 0.9);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <div class="container">
+    <header>
+      <span class="badge">Netlify Blobs Question Manager</span>
+      <h1>MBTI Question Editor</h1>
+      <p class="subtitle">Customize quiz questions, dimension weights, and options live on Netlify.</p>
+    </header>
+
+    <div class="control-bar">
+      <div>
+        <a href="/index.html" class="btn btn-secondary" style="text-decoration:none;">⬅ Back to Quiz</a>
+        <button class="btn btn-secondary" id="btn-add-q">➕ Add New Question</button>
+      </div>
+      <div>
+        <button class="btn btn-danger" id="btn-reset">🔄 Reset Defaults</button>
+        <button class="btn btn-primary" id="btn-save">💾 Save to Netlify Blobs</button>
+      </div>
+    </div>
+
+    <div class="questions-list" id="questions-container">
+      <p style="text-align:center; color: var(--text-muted);">Loading questions...</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Changes saved to Netlify Blobs!</div>
+
+  <script>
+    let questions = [];
+
+    async function loadQuestions() {
+      try {
+        const res = await fetch('/api/get-questions');
+        const data = await res.json();
+        questions = data.questions || [];
+        renderQuestions();
+      } catch (err) {
+        console.error('Failed to load questions:', err);
+      }
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      questions.forEach((q, qIdx) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let optionsHtml = '';
+        (q.options || []).forEach((opt, optIdx) => {
+          const valStr = JSON.stringify(opt.value || {}).replace(/"/g, '');
+          optionsHtml += `
+            <div class="opt-row">
+              <input type="text" class="input-opt-text" value="${escapeHtml(opt.text)}" onchange="updateOptText(${qIdx}, ${optIdx}, this.value)" placeholder="Option text...">
+              <input type="text" class="input-opt-val" value="${escapeHtml(valStr)}" onchange="updateOptValue(${qIdx}, ${optIdx}, this.value)" placeholder="{E:2,I:0}">
+              <button class="btn btn-danger btn-sm" onclick="deleteOption(${qIdx}, ${optIdx})">✕</button>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="q-header">
+            <span class="q-number">Question ${qIdx + 1}</span>
+            <div>
+              <select class="select-dim" onchange="updateDim(${qIdx}, this.value)">
+                <option value="EI" ${q.dim === 'EI' ? 'selected' : ''}>Dimension: EI (Extraversion / Introversion)</option>
+                <option value="SN" ${q.dim === 'SN' ? 'selected' : ''}>Dimension: SN (Sensing / Intuition)</option>
+                <option value="TF" ${q.dim === 'TF' ? 'selected' : ''}>Dimension: TF (Thinking / Feeling)</option>
+                <option value="JP" ${q.dim === 'JP' ? 'selected' : ''}>Dimension: JP (Judging / Perceiving)</option>
+              </select>
+              <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${qIdx})">Delete Question</button>
+            </div>
+          </div>
+          <input type="text" class="input-text" value="${escapeHtml(q.text)}" onchange="updateQText(${qIdx}, this.value)" placeholder="Type question text...">
+          
+          <div class="options-editor">
+            ${optionsHtml}
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="addOption(${qIdx})">➕ Add Option Choice</button>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function updateQText(qIdx, text) { questions[qIdx].text = text; }
+    function updateDim(qIdx, dim) { questions[qIdx].dim = dim; }
+
+    function updateOptText(qIdx, optIdx, text) {
+      questions[qIdx].options[optIdx].text = text;
+    }
+
+    function updateOptValue(qIdx, optIdx, valStr) {
+      try {
+        // Parse simple object e.g. {E:2, I:0}
+        let clean = valStr.trim();
+        if (!clean.startsWith('{')) clean = '{' + clean + '}';
+        clean = clean.replace(/([A-Z]):/g, '"$1":');
+        questions[qIdx].options[optIdx].value = JSON.parse(clean);
+      } catch (e) {
+        console.warn('Invalid JSON format for option value:', valStr);
+      }
+    }
+
+    function addOption(qIdx) {
+      const dim = questions[qIdx].dim || 'EI';
+      const defaultVal = dim === 'EI' ? { E: 1, I: 0 } : { S: 1, N: 0 };
+      questions[qIdx].options.push({ text: "New Choice", value: defaultVal });
+      renderQuestions();
+    }
+
+    function deleteOption(qIdx, optIdx) {
+      questions[qIdx].options.splice(optIdx, 1);
+      renderQuestions();
+    }
+
+    function deleteQuestion(qIdx) {
+      questions.splice(qIdx, 1);
+      renderQuestions();
+    }
+
+    document.getElementById('btn-add-q').onclick = () => {
+      questions.push({
+        id: questions.length + 1,
+        dim: 'EI',
+        text: "New MBTI Question?",
+        options: [
+          { text: "Option A", value: { E: 2, I: 0 } },
+          { text: "Option B", value: { E: 0, I: 2 } }
+        ]
+      });
+      renderQuestions();
+    };
+
+    document.getElementById('btn-save').onclick = async () => {
+      const btn = document.getElementById('btn-save');
+      btn.innerHTML = '⌛ Saving to Blobs...';
+
+      try {
+        const res = await fetch('/api/save-questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ questions })
+        });
+        const data = await res.json();
+        showToast(data.message || 'Saved successfully!');
+      } catch (err) {
+        showToast('Error saving questions: ' + err.message);
+      } finally {
+        btn.innerHTML = '💾 Save to Netlify Blobs';
+      }
+    };
+
+    document.getElementById('btn-reset').onclick = async () => {
+      if (!confirm('Are you sure you want to reset all questions to the default 12-question set?')) return;
+      try {
+        await fetch('/api/save-questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reset: true })
+        });
+        showToast('Reset to default questions!');
+        loadQuestions();
+      } catch (err) {
+        showToast('Error resetting questions: ' + err.message);
+      }
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    loadQuestions();
+  </script>
+</body>
+</html>

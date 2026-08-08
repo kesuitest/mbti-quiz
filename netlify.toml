@@ -11,3 +11,13 @@
   from = "/api/get-result"
   to = "/.netlify/functions/get-result"
   status = 200
+
+[[redirects]]
+  from = "/api/get-questions"
+  to = "/.netlify/functions/get-questions"
+  status = 200
+
+[[redirects]]
+  from = "/api/save-questions"
+  to = "/.netlify/functions/save-questions"
+  status = 200
