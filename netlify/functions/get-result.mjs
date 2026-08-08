@@ -287,6 +287,7 @@ export default async (req, context) => {
 
   const responsePayload = {
     id: resultId || "demo-result",
+    userName: blobData?.userName || "",
     type: mbtiType,
     title: profileDetails.title,
     motto: profileDetails.motto,

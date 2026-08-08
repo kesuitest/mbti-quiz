@@ -235,6 +235,11 @@
       <a href="/admin.html" style="float: right; color: var(--text-muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">⚙️ QUESTION ADMIN</a>
       <h1>DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
       <p class="subtitle">Select one choice (A, B, C, or D) for all 12 questions below, then click submit at the bottom to uncover your psychological profile.</p>
+      
+      <div style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+        <label for="user-name-input" style="font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px;">YOUR NAME (OPTIONAL):</label>
+        <input type="text" id="user-name-input" placeholder="e.g. Alex" style="background: var(--option-bg); border: 2px solid var(--card-border); color: #ffffff; padding: 0.8rem 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.95rem; text-align: center; width: 100%; max-width: 360px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--card-border)'">
+      </div>
     </header>
 
     <div id="quiz-section">
@@ -540,11 +545,14 @@
         btnSubmitAll.disabled = true;
         btnSubmitAll.innerHTML = `<span class="spinner"></span> ANALYZING PERSONALITY ARCHETYPE...`;
 
+        const nameInput = document.getElementById('user-name-input');
+        const userName = nameInput ? nameInput.value.trim() : '';
+
         try {
           const res = await fetch('/api/submit-quiz', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: scores })
+            body: JSON.stringify({ answers: scores, userName })
           });
 
           const data = await res.json();

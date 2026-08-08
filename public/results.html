@@ -299,6 +299,7 @@
       <div class="blob-tag" id="blob-status">
         <span class="blob-dot"></span> Verified Profile
       </div>
+      <div id="user-name-display" style="display: none; font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.75rem;"></div>
       <div class="type-code" id="type-code">----</div>
       <div class="type-title" id="type-title">Loading Archetype...</div>
       <div class="type-motto" id="type-motto">"Discovering your unique cognitive profile"</div>
@@ -402,6 +403,15 @@
     }
 
     function renderResult(data) {
+      if (data.userName) {
+        const nameDisplay = document.getElementById('user-name-display');
+        if (nameDisplay) {
+          nameDisplay.textContent = `${data.userName.toUpperCase()}'S COGNITIVE ARCHETYPE`;
+          nameDisplay.style.display = 'block';
+        }
+        document.title = `${data.userName}'s MBTI Result - ${data.type} ${data.title}`;
+      }
+
       document.getElementById('type-code').textContent = data.type;
       document.getElementById('type-title').textContent = data.title;
       document.getElementById('type-motto').textContent = `"${data.motto}"`;

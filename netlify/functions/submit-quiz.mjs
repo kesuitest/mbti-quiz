@@ -29,7 +29,8 @@ export default async (req, context) => {
 
   try {
     const body = await req.json();
-    const { answers } = body;
+    const { answers, userName } = body;
+    const cleanUserName = typeof userName === "string" ? userName.trim().slice(0, 50) : "";
 
     let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
     if (answers && typeof answers === "object") {
@@ -69,6 +70,7 @@ export default async (req, context) => {
 
     const resultPayload = {
       id: resultId,
+      userName: cleanUserName,
       type,
       title: meta.title,
       motto: meta.motto,
