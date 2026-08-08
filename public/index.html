@@ -72,10 +72,10 @@
 
     h1 {
       font-family: 'Hanken Grotesk', sans-serif;
-      font-size: 2.85rem;
+      font-size: 3rem;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       letter-spacing: -0.03em;
       text-transform: uppercase;
     }
@@ -83,7 +83,7 @@
     p.subtitle {
       color: var(--text-muted);
       font-size: 1.05rem;
-      max-width: 540px;
+      max-width: 600px;
       margin: 0 auto;
       line-height: 1.6;
     }
@@ -186,35 +186,6 @@
       background: var(--primary);
     }
 
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-      align-items: center;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid var(--card-border);
-      color: var(--text-muted);
-      padding: 0.75rem 1.5rem;
-      border-radius: 0px;
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-secondary:hover:not(:disabled) {
-      color: var(--text-main);
-      border-color: var(--text-main);
-    }
-    .btn-secondary:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
     .btn-primary {
       background: var(--primary);
       border: 2px solid var(--primary);
@@ -258,61 +229,19 @@
 </head>
 <body>
 
-  <div class="glow-orb orb-1"></div>
-  <div class="glow-orb orb-2"></div>
-
   <div class="container">
-    <header style="text-align: center; margin-bottom: 2.5rem;">
+    <header>
       <span class="badge">Personality Assessment • v3.8</span>
       <a href="/admin.html" style="float: right; color: var(--text-muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">⚙️ QUESTION ADMIN</a>
-<<<<<<< HEAD
-      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1rem 0 0.5rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
-      <p class="subtitle" style="max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted);">Answer all 12 questions below and click submit to uncover your psychological profile, strengths, and career compatibility.</p>
+      <h1>DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
+      <p class="subtitle">Select one choice (A, B, C, or D) for all 12 questions below, then click submit at the bottom to uncover your psychological profile.</p>
     </header>
-=======
-<<<<<<< HEAD
-      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1rem 0 0.5rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
-      <p class="subtitle" style="max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted);">Answer all 12 questions below and click submit to uncover your psychological profile, strengths, and career compatibility.</p>
-    </header>
-=======
-      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1.5rem 0 1rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
-      <p class="subtitle" style="max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.1rem; line-height: 1.65; color: var(--text-muted);">Take our accurate 12-question MBTI assessment to unlock your psychological profile, strengths, optimal career paths, and relationship compatibility.</p>
-<<<<<<< Updated upstream
-      <button class="btn btn-primary" id="btn-start-quiz" style="font-size: 1.05rem; padding: 1.1rem 2.8rem; cursor: pointer;">🚀 START ASSESSMENT</button>
 
-    <div class="progress-wrapper">
-      <div class="progress-labels">
-        <span id="progress-text">Question 1 of 12</span>
-        <span id="progress-percent">8% Completed</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progress-bar"></div>
-      </div>
-    </div>
->>>>>>> 4d8a9ee07bc8e6c1645aa5b4449e3f470ac45c8f
-=======
-      <button class="btn btn-primary" id="btn-start-quiz" onclick="startQuiz()" style="font-size: 1.05rem; padding: 1.1rem 2.8rem; cursor: pointer;">🚀 START ASSESSMENT</button>
->>>>>>> Stashed changes
-    </div>
->>>>>>> 2ba185b9673cfe429deed7601d1970b914e95e7b
->>>>>>> 0e570f4a877c1fc43aab703a965147e33e936a99
-
-    <!-- Quiz Question Flow Section (All Questions on 1 Page) -->
     <div id="quiz-section">
       <div class="progress-wrapper" style="position: sticky; top: 0; z-index: 10; background: var(--bg-dark); padding: 1rem 0; border-bottom: 2px solid var(--card-border); margin-bottom: 2rem;">
         <div class="progress-labels">
-<<<<<<< HEAD
           <span id="answered-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700;">0 OF 12 ANSWERED</span>
           <span id="questions-left-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--primary);">12 QUESTIONS REMAINING</span>
-=======
-<<<<<<< HEAD
-          <span id="answered-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700;">0 OF 12 ANSWERED</span>
-          <span id="questions-left-status" style="font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--primary);">12 QUESTIONS REMAINING</span>
-=======
-          <span id="progress-text">Question 1 of 12</span>
-          <span id="progress-left">11 Questions Left</span>
->>>>>>> 147471beaed5d6394792d2af0ad5cbd89028abe6
->>>>>>> 65df173812c10fc2a54c3914bcc05b97473f83be
         </div>
         <div class="progress-bar-bg" style="margin-top: 0.5rem;">
           <div class="progress-bar-fill" id="progress-bar"></div>
@@ -476,29 +405,7 @@
       }
     }
 
-    const userAnswers = {}; // qIndex -> optionIndex
-
-<<<<<<< HEAD
-    const questionsContainer = document.getElementById('questions-list-container');
-    const answeredStatus = document.getElementById('answered-status');
-    const questionsLeftStatus = document.getElementById('questions-left-status');
-=======
-<<<<<<< HEAD
-    const questionsContainer = document.getElementById('questions-list-container');
-    const answeredStatus = document.getElementById('answered-status');
-    const questionsLeftStatus = document.getElementById('questions-left-status');
-=======
-    const qTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const progressText = document.getElementById('progress-text');
-    const progressLeft = document.getElementById('progress-left');
->>>>>>> 147471beaed5d6394792d2af0ad5cbd89028abe6
->>>>>>> 65df173812c10fc2a54c3914bcc05b97473f83be
-    const progressBar = document.getElementById('progress-bar');
-    const unansweredWarning = document.getElementById('unanswered-warning');
-    const btnSubmitAll = document.getElementById('btn-submit-all');
+    const userAnswers = {};
 
     function renderAllQuestions() {
       if (!QUESTIONS || !Array.isArray(QUESTIONS) || QUESTIONS.length === 0) return;
@@ -514,10 +421,6 @@
         card.id = `q-card-${qIdx}`;
         card.style.transition = 'all 0.3s ease';
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 65df173812c10fc2a54c3914bcc05b97473f83be
         let optionsHtml = '';
         const optionLetters = ['A', 'B', 'C', 'D'];
         q.options.forEach((opt, optIdx) => {
@@ -529,81 +432,6 @@
               <span class="radio-circle"></span>
             </button>
           `;
-<<<<<<< HEAD
-=======
-=======
-      const percent = Math.round(((currentQuestionIndex + 1) / QUESTIONS.length) * 100);
-      const remaining = QUESTIONS.length - (currentQuestionIndex + 1);
-
-      progressText.textContent = `Question ${currentQuestionIndex + 1} of ${QUESTIONS.length}`;
-      if (remaining === 0) {
-        progressLeft.textContent = `Final Question`;
-      } else if (remaining === 1) {
-        progressLeft.textContent = `1 Question Left`;
-      } else {
-        progressLeft.textContent = `${remaining} Questions Left`;
-      }
-      progressBar.style.width = `${percent}%`;
-
-      q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (userAnswers[currentQuestionIndex] === idx) {
-          btn.classList.add('selected');
-        }
-        btn.innerHTML = `
-          <span>${opt.text}</span>
-          <span class="radio-circle"></span>
-        `;
-        btn.onclick = () => selectOption(idx);
-        optionsContainer.appendChild(btn);
-      });
-
-      btnPrev.disabled = currentQuestionIndex === 0;
-      if (currentQuestionIndex === QUESTIONS.length - 1) {
-        btnNext.textContent = 'Submit Quiz';
-      } else {
-        btnNext.textContent = 'Next Question';
-      }
-
-      btnNext.disabled = userAnswers[currentQuestionIndex] === undefined;
-    }
-
-    function selectOption(idx) {
-      userAnswers[currentQuestionIndex] = idx;
-      const allBtns = optionsContainer.querySelectorAll('.option-btn');
-      allBtns.forEach((b, i) => {
-        if (i === idx) b.classList.add('selected');
-        else b.classList.remove('selected');
-      });
-      btnNext.disabled = false;
-    }
-
-    btnPrev.onclick = () => {
-      if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        renderQuestion();
-      }
-    };
-
-    btnNext.onclick = async () => {
-      if (userAnswers[currentQuestionIndex] === undefined) return;
-
-      if (currentQuestionIndex < QUESTIONS.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-      } else {
-        // Calculate scores
-        const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-        Object.keys(userAnswers).forEach(qIdx => {
-          const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
-          if (optSelected && optSelected.value) {
-            Object.keys(optSelected.value).forEach(k => {
-              scores[k] += optSelected.value[k];
-            });
-          }
->>>>>>> 147471beaed5d6394792d2af0ad5cbd89028abe6
->>>>>>> 65df173812c10fc2a54c3914bcc05b97473f83be
         });
 
         card.innerHTML = `
@@ -617,7 +445,7 @@
           </div>
         `;
 
-        questionsContainer.appendChild(card);
+        container.appendChild(card);
       });
 
       updateProgress();
@@ -678,65 +506,67 @@
       if (barEl) barEl.style.width = `${percent}%`;
     }
 
-    btnSubmitAll.onclick = async () => {
-      const answeredCount = Object.keys(userAnswers).length;
-      if (answeredCount < QUESTIONS.length) {
-        unansweredWarning.style.display = 'block';
-        
-        // Highlight first unanswered question
-        for (let i = 0; i < QUESTIONS.length; i++) {
-          if (userAnswers[i] === undefined) {
-            const card = document.getElementById(`q-card-${i}`);
-            if (card) {
-              card.style.borderColor = '#e63946';
-              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const btnSubmitAll = document.getElementById('btn-submit-all');
+    if (btnSubmitAll) {
+      btnSubmitAll.onclick = async () => {
+        const answeredCount = Object.keys(userAnswers).length;
+        const warnEl = document.getElementById('unanswered-warning');
+        if (answeredCount < QUESTIONS.length) {
+          if (warnEl) warnEl.style.display = 'block';
+          
+          for (let i = 0; i < QUESTIONS.length; i++) {
+            if (userAnswers[i] === undefined) {
+              const card = document.getElementById(`q-card-${i}`);
+              if (card) {
+                card.style.borderColor = '#e63946';
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+              break;
             }
-            break;
           }
+          return;
         }
-        return;
-      }
 
-      // Calculate dimension scores
-      const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-      Object.keys(userAnswers).forEach(qIdx => {
-        const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
-        if (optSelected && optSelected.value) {
-          Object.keys(optSelected.value).forEach(k => {
-            scores[k] += optSelected.value[k];
-          });
-        }
-      });
-
-      btnSubmitAll.disabled = true;
-      btnSubmitAll.innerHTML = `<span class="spinner"></span> ANALYZING PERSONALITY ARCHETYPE...`;
-
-      try {
-        const res = await fetch('/api/submit-quiz', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ answers: scores })
+        const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        Object.keys(userAnswers).forEach(qIdx => {
+          const optSelected = QUESTIONS[qIdx].options[userAnswers[qIdx]];
+          if (optSelected && optSelected.value) {
+            Object.keys(optSelected.value).forEach(k => {
+              scores[k] += optSelected.value[k];
+            });
+          }
         });
 
-        const data = await res.json();
-        if (data.resultId) {
-          window.location.href = `/results.html?id=${data.resultId}`;
-        } else if (data.type) {
-          window.location.href = `/results.html?type=${data.type}`;
-        } else {
-          throw new Error('Invalid response structure');
+        btnSubmitAll.disabled = true;
+        btnSubmitAll.innerHTML = `<span class="spinner"></span> ANALYZING PERSONALITY ARCHETYPE...`;
+
+        try {
+          const res = await fetch('/api/submit-quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answers: scores })
+          });
+
+          const data = await res.json();
+          if (data.resultId) {
+            window.location.href = `/results.html?id=${data.resultId}`;
+          } else if (data.type) {
+            window.location.href = `/results.html?type=${data.type}`;
+          } else {
+            throw new Error('Invalid response structure');
+          }
+        } catch (err) {
+          console.warn('Backend API submission fallback:', err.message);
+          const type = [
+            scores.E >= scores.I ? "E" : "I",
+            scores.N >= scores.S ? "N" : "S",
+            scores.T >= scores.F ? "T" : "F",
+            scores.J >= scores.P ? "J" : "P"
+          ].join("");
+          window.location.href = `/results.html?type=${type}`;
         }
-      } catch (err) {
-        console.warn('Backend API submission fallback:', err.message);
-        const type = [
-          scores.E >= scores.I ? "E" : "I",
-          scores.N >= scores.S ? "N" : "S",
-          scores.T >= scores.F ? "T" : "F",
-          scores.J >= scores.P ? "J" : "P"
-        ].join("");
-        window.location.href = `/results.html?type=${type}`;
-      }
-    };
+      };
+    }
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initQuiz);
