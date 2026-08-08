@@ -262,32 +262,37 @@
   <div class="glow-orb orb-2"></div>
 
   <div class="container">
-    <header>
+    <!-- Landing Hero Screen -->
+    <div class="hero-card" id="landing-hero" style="text-align: center; background: var(--card-bg); border: 2px solid var(--card-border); padding: 3.5rem 2rem; margin-bottom: 2rem;">
       <span class="badge">Personality Assessment • v3.5</span>
-      <a href="/admin.html" style="float: right; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500;">⚙️ Question Admin</a>
-      <h1>MBTI Personality Quiz</h1>
-      <p class="subtitle">Answer quick questions to discover your 4-letter personality archetype and deep profile breakdown.</p>
-    </header>
-
-    <div class="progress-wrapper">
-      <div class="progress-labels">
-        <span id="progress-text">Question 1 of 12</span>
-        <span id="progress-percent">8% Completed</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progress-bar"></div>
-      </div>
+      <a href="/admin.html" style="float: right; color: var(--text-muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">⚙️ QUESTION ADMIN</a>
+      <h1 style="font-family: 'Hanken Grotesk', sans-serif; font-size: 3.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; margin: 1.5rem 0 1rem 0;">DISCOVER YOUR COGNITIVE ARCHETYPE</h1>
+      <p class="subtitle" style="max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.1rem; line-height: 1.65; color: var(--text-muted);">Take our accurate 12-question MBTI assessment to unlock your psychological profile, strengths, optimal career paths, and relationship compatibility.</p>
+      <button class="btn btn-primary" id="btn-start-quiz" style="font-size: 1.05rem; padding: 1.1rem 2.8rem; cursor: pointer;">🚀 START ASSESSMENT</button>
     </div>
 
-    <main class="quiz-card" id="quiz-card">
-      <h2 class="question-title" id="question-text">Loading question...</h2>
-      <div class="options-grid" id="options-container"></div>
-
-      <div class="controls">
-        <button class="btn-secondary" id="btn-prev" disabled>Previous</button>
-        <button class="btn-primary" id="btn-next" disabled>Next Question</button>
+    <!-- Quiz Question Flow Section -->
+    <div id="quiz-section" style="display: none;">
+      <div class="progress-wrapper">
+        <div class="progress-labels">
+          <span id="progress-text">Question 1 of 12</span>
+          <span id="progress-percent">8% Completed</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
       </div>
-    </main>
+
+      <main class="quiz-card" id="quiz-card">
+        <h2 class="question-title" id="question-text">Loading question...</h2>
+        <div class="options-grid" id="options-container"></div>
+
+        <div class="controls">
+          <button class="btn-secondary" id="btn-prev" disabled>Previous</button>
+          <button class="btn-primary" id="btn-next" disabled>Next Question</button>
+        </div>
+      </main>
+    </div>
   </div>
 
   <script>
@@ -536,6 +541,11 @@
           window.location.href = `/results.html?type=${type}`;
         }
       }
+    };
+
+    document.getElementById('btn-start-quiz').onclick = () => {
+      document.getElementById('landing-hero').style.display = 'none';
+      document.getElementById('quiz-section').style.display = 'block';
     };
 
     initQuiz();
