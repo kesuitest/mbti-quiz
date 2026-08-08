@@ -418,16 +418,19 @@
     let QUESTIONS = DEFAULT_QUESTIONS;
 
     async function initQuiz() {
+      renderQuestion();
       try {
         const res = await fetch('/api/get-questions');
-        const data = await res.json();
-        if (data.questions && data.questions.length > 0) {
-          QUESTIONS = data.questions;
+        if (res.ok) {
+          const data = await res.json();
+          if (data.questions && data.questions.length > 0) {
+            QUESTIONS = data.questions;
+            renderQuestion();
+          }
         }
       } catch (err) {
         console.warn('Using default static questions fallback:', err);
       }
-      renderQuestion();
     }
 
     let currentQuestionIndex = 0;
@@ -442,7 +445,10 @@
     const progressBar = document.getElementById('progress-bar');
 
     function renderQuestion() {
+      if (!QUESTIONS || QUESTIONS.length === 0) return;
       const q = QUESTIONS[currentQuestionIndex];
+      if (!q) return;
+
       qTextEl.textContent = `${currentQuestionIndex + 1}. ${q.text}`;
       optionsContainer.innerHTML = '';
 
@@ -546,6 +552,7 @@
     document.getElementById('btn-start-quiz').onclick = () => {
       document.getElementById('landing-hero').style.display = 'none';
       document.getElementById('quiz-section').style.display = 'block';
+      renderQuestion();
     };
 
     initQuiz();
