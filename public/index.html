@@ -422,8 +422,11 @@
         clearTimeout(timeoutId);
         if (res.ok) {
           const data = await res.json();
-          if (data.questions && data.questions.length > 0) {
-            QUESTIONS = data.questions;
+          if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
+            const validQuestions = data.questions.filter(q => q && q.text && Array.isArray(q.options) && q.options.length > 0);
+            if (validQuestions.length > 0) {
+              QUESTIONS = validQuestions;
+            }
           }
         }
       } catch (err) {
@@ -445,10 +448,14 @@
     const btnSubmitAll = document.getElementById('btn-submit-all');
 
     function renderAllQuestions() {
-      if (!QUESTIONS || QUESTIONS.length === 0) return;
-      questionsContainer.innerHTML = '';
+      if (!QUESTIONS || !Array.isArray(QUESTIONS) || QUESTIONS.length === 0) return;
+      const container = document.getElementById('questions-list-container');
+      if (!container) return;
+      container.innerHTML = '';
 
       QUESTIONS.forEach((q, qIdx) => {
+        if (!q || !q.options || !Array.isArray(q.options)) return;
+
         const card = document.createElement('main');
         card.className = 'quiz-card';
         card.id = `q-card-${qIdx}`;
@@ -507,29 +514,36 @@
         qTag.style.color = '#10b981';
       }
 
-      unansweredWarning.style.display = 'none';
+      const warnEl = document.getElementById('unanswered-warning');
+      if (warnEl) warnEl.style.display = 'none';
       updateProgress();
     }
 
     function updateProgress() {
-      const total = QUESTIONS.length;
+      const total = QUESTIONS ? QUESTIONS.length : 12;
       const answeredCount = Object.keys(userAnswers).length;
-      const remaining = total - answeredCount;
+      const remaining = Math.max(0, total - answeredCount);
       const percent = Math.round((answeredCount / total) * 100);
 
-      answeredStatus.textContent = `${answeredCount} OF ${total} ANSWERED`;
-      if (remaining === 0) {
-        questionsLeftStatus.textContent = `ALL QUESTIONS COMPLETE! 🎉`;
-        questionsLeftStatus.style.color = '#10b981';
-      } else if (remaining === 1) {
-        questionsLeftStatus.textContent = `1 QUESTION REMAINING`;
-        questionsLeftStatus.style.color = 'var(--primary)';
-      } else {
-        questionsLeftStatus.textContent = `${remaining} QUESTIONS REMAINING`;
-        questionsLeftStatus.style.color = 'var(--primary)';
+      const answeredEl = document.getElementById('answered-status');
+      const questionsLeftEl = document.getElementById('questions-left-status');
+      const barEl = document.getElementById('progress-bar');
+
+      if (answeredEl) answeredEl.textContent = `${answeredCount} OF ${total} ANSWERED`;
+      if (questionsLeftEl) {
+        if (remaining === 0) {
+          questionsLeftEl.textContent = `ALL QUESTIONS COMPLETE! 🎉`;
+          questionsLeftEl.style.color = '#10b981';
+        } else if (remaining === 1) {
+          questionsLeftEl.textContent = `1 QUESTION REMAINING`;
+          questionsLeftEl.style.color = 'var(--primary)';
+        } else {
+          questionsLeftEl.textContent = `${remaining} QUESTIONS REMAINING`;
+          questionsLeftEl.style.color = 'var(--primary)';
+        }
       }
 
-      progressBar.style.width = `${percent}%`;
+      if (barEl) barEl.style.width = `${percent}%`;
     }
 
     btnSubmitAll.onclick = async () => {
